@@ -1,0 +1,14 @@
+# emacs backup files
+*~
+*#*
+
+
+*.o
+
+build/*
+obj/*
+time/data/*
+
+TAGS
+
+.Rhistory
