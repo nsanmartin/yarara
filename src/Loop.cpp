@@ -56,6 +56,12 @@ void Loop::Update() {
                 c.MoveY(2);
             }
             break;
+        case Media::Key::r:
+            if (ExistsActiveCajita()) {
+                Cajita& c{GetActiveCajita()};
+                c.Rotate(6);
+            }
+            break;
         case Media::Key::q:
             std::cout << "quiting...";
             mContinue = false;

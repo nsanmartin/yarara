@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <Media.hpp>
+#include <Point.hpp>
 
 void Media::Init() {
     
@@ -13,7 +14,7 @@ void Media::Init() {
     //Window
     mWin = SDL_CreateWindow(
         "HW", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        640, 480, SDL_WINDOW_SHOWN);
+        mWindowHeight, mWindowWidth, SDL_WINDOW_SHOWN);
     
     if (mWin == nullptr) {
         std::cout << "SDL_CreateWindow error: " << SDL_GetError()
@@ -65,6 +66,9 @@ void Media::PollEvents() {
             case SDLK_DOWN:
                 mKeyQueue.push_front(Key::Down);
                 break;
+            case SDLK_r:
+                mKeyQueue.push_front(Key::r);
+                break;
             case SDLK_q:
                 mKeyQueue.push_front(Key::q);
                 break;
@@ -90,9 +94,50 @@ void Media::PollEvents() {
 }
 
 
-void Media::Draw(Cajita c) {
-    SDL_Rect rect = {c.mPosX, c.mPosY, c.mX, c.mY}; // the rectangle
+void Media::Draw(Cajita caja) {
+    int npoints{10};
+    int displ {1};
+    Point desp{caja.mX/2, caja.mY/2};
+    
+    Point center { desp + Point {caja.mPosX, caja.mPosY}};
+    Point pos{caja.mPosX, caja.mPosY};
+    
+    // int x {caja.mX/2};
+    // int y {caja.mY/2};
+
+    Point a {Point{-desp.mX, -desp.mY}};
+    Point b {Point{-desp.mX, desp.mY}};
+    Point c {Point{desp.mX, desp.mY}};
+    Point d {Point{desp.mX, -desp.mY}};
+
+    a.Rotate(caja.mAngle.mRot);
+    b.Rotate(caja.mAngle.mRot);
+    c.Rotate(caja.mAngle.mRot);
+    d.Rotate(caja.mAngle.mRot);
+
+    pos += desp;
+    
+    a += center;
+    b += center;
+    c += center;
+    d += center;
+    
+    SDL_Point points[npoints] = {
+        {a.mX, a.mY},
+        {b.mX, b.mY},
+        {c.mX, c.mY},
+        {d.mX, d.mY },
+        {a.mX, a.mY},
+
+        {a.mX + displ, a.mY + displ},
+        {b.mX + displ, b.mY - displ},
+        {c.mX - displ, c.mY - displ},
+        {d.mX - displ, d.mY + displ},
+        {a.mX + displ, a.mY + displ}
+
+    };
+
     SDL_SetRenderDrawColor( mRenderer, 0, 0, 255, 255 );
-    SDL_RenderFillRect(mRenderer, &rect);
+    SDL_RenderDrawLines(mRenderer, points, npoints);
 
 }

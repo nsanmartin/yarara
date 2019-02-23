@@ -8,9 +8,10 @@
 
 class Media {
 public:
-    enum class Key { a, b, q, Left, Right, Up, Down };
+    enum class Key { a, b, r, q, Left, Right, Up, Down };
 private:
     SDL_Window *mWin;
+    int mWindowWidth, mWindowHeight;
     SDL_Renderer *mRenderer;
 
     SDL_Event mEvent;
@@ -18,7 +19,9 @@ private:
     
 public:
 
-    Media(): mWin{nullptr}, mRenderer{nullptr} {}
+    Media(): mWin{nullptr}, mRenderer{nullptr},
+             mWindowWidth{640},
+             mWindowHeight{480} {}
     void Init();
     void Close();
     void PollEvents();
