@@ -3,6 +3,7 @@
 
 #include <cstdint>
 
+class Pt { int x, y; };
 
 
 class Cajita {
@@ -16,7 +17,6 @@ public:
         : mX{x}, mY{y}, mZ{1}, mPosX{}, mPosY{}, mRot{} {}
     void MoveY(int i) { mPosY += i; }
     void MoveX(int i) { mPosX += i; }
-
 };
 
 

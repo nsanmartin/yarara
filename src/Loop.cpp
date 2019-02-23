@@ -35,25 +35,25 @@ void Loop::Update() {
         case Media::Key::Left:
             if (ExistsActiveCajita()) {
                 Cajita& c{GetActiveCajita()};
-                c.MoveX(-1);
+                c.MoveX(-2);
             }
             break;
         case Media::Key::Right:
             if (ExistsActiveCajita()) {
                 Cajita& c{GetActiveCajita()};
-                c.MoveX(1);
+                c.MoveX(2);
             }
             break;
         case Media::Key::Up:
             if (ExistsActiveCajita()) {
                 Cajita& c{GetActiveCajita()};
-                c.MoveY(1);
+                c.MoveY(-2);
             }
             break;
         case Media::Key::Down:
             if (ExistsActiveCajita()) {
                 Cajita& c{GetActiveCajita()};
-                c.MoveY(-1);
+                c.MoveY(2);
             }
             break;
         case Media::Key::q:
