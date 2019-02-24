@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <Cajita.hpp>
 
+class World;
 
 class Media {
 public:
@@ -16,7 +17,7 @@ private:
 
     SDL_Event mEvent;
     std::deque<Key> mKeyQueue;
-    
+    World* mWorld;
 public:
 
     Media(): mWin{nullptr}, mWindowWidth{640}, mWindowHeight{480},

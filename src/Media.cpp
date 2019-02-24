@@ -2,6 +2,8 @@
 
 #include <Media.hpp>
 #include <Point.hpp>
+#include <World.hpp>
+
 
 void Media::Init() {
     
@@ -46,6 +48,7 @@ void Media::Clear() {
 
 
 void Media::PollEvents() {
+    mWorld->ExistsActiveCajita();
     /* Poll for events */
     while( SDL_PollEvent( &mEvent ) ){
                 
