@@ -3,9 +3,9 @@
 #include <thread>
 
 
-#include <Loop.hpp>
+#include <World.hpp>
 
-void Loop::Run() {
+void World::Loop() {
     std::cout << "run!" << std::endl;
     mMedia.Init();
 
@@ -20,15 +20,15 @@ void Loop::Run() {
         
         std::this_thread::sleep_for(
             std::chrono::milliseconds(16));
-
         
     }
+    
     mMedia.Close();
     std::cout << "bye" << std::endl;
 }
 
 
-void Loop::Update() {
+void World::Update() {
     while (mMedia.HasEvents()) {
         Media::Key k{mMedia.PopKey()};
         switch (k) {

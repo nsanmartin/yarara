@@ -1,7 +1,7 @@
-#include <Loop.hpp>
+#include <World.hpp>
 
 
 int main () {
-    Loop l{};
-    l.Run();
+    World w{};
+    w.Loop();
 }

@@ -1,12 +1,12 @@
-#ifndef _LOOP_H
-#define _LOOP_H
+#ifndef _WORLD_H
+#define _WORLD_H
 
 #include <vector>
 
 #include <Media.hpp>
 #include <Cajita.hpp>
 
-class Loop {
+class World {
 
     bool mContinue;
     Media mMedia;
@@ -14,11 +14,11 @@ class Loop {
     size_t mActiveCajita;
 public:
 
-    Loop() : mContinue{true}, mMedia{}, mActiveCajita{} {}
-    void Run();
+    World() : mContinue{true}, mMedia{}, mActiveCajita{} {}
+    void Loop();
     void Update();
     void PushCajita(Cajita c) { mCajitas.push_back(c); }
-    bool ExistsActiveCajita() { mActiveCajita < mCajitas.size(); }
+    bool ExistsActiveCajita() { return mActiveCajita < mCajitas.size(); }
 
     Cajita& GetActiveCajita() { return mCajitas[mActiveCajita];}
 };

@@ -19,9 +19,8 @@ private:
     
 public:
 
-    Media(): mWin{nullptr}, mRenderer{nullptr},
-             mWindowWidth{640},
-             mWindowHeight{480} {}
+    Media(): mWin{nullptr}, mWindowWidth{640}, mWindowHeight{480},
+             mRenderer{nullptr} {}
     void Init();
     void Close();
     void PollEvents();

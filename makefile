@@ -1,6 +1,6 @@
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
-CXXFLAGS = -g -std=c++11 -I./include 
+CXXFLAGS = -Wall -std=c++11 -I./include 
 CC = g++
 
 BUILD = build

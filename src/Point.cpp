@@ -3,12 +3,6 @@
 #include <Point.hpp>
 
 void Point::Rotate(int angle) {
-    // double x{mX};
-    // double y{mY};
-    // double center_x {x / 2};
-    // double center_y {y / 2};
-    // x =- center_x;
-    // y =- center_y;
     static const double pi{3.1415926535897};
     double radians{angle * pi/180};
     double cos_angle{cos(radians)};
