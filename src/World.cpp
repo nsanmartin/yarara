@@ -5,10 +5,12 @@
 
 #include <World.hpp>
 #include <State/WorldStatePresentation.hpp>
+#include <State/WorldStateMove.hpp>
 
 World::World()
-    : mContinue{true}, mMedia{}, mActiveCajita{},
-      mStates{new WorldStatePresentation{*this}},
+    : mContinue{true}, mMedia{*this}, mActiveCajita{},
+      mStates{new WorldStatePresentation{*this},
+              new WorldStateMove{*this}},
       mPresentState{}
 {
 
@@ -26,7 +28,7 @@ void World::Loop() {
     mMedia.Init();
 
     while (mContinue) {
-        mMedia.PollEvents();
+        HandleInput();
         Update();
         mMedia.Clear();
         for (auto& cajita : mCajitas) {
@@ -45,46 +47,6 @@ void World::Loop() {
 
 
 void World::Update() {
-    while (mMedia.HasEvents()) {
-        Media::Key k{mMedia.PopKey()};
-        switch (k) {
-        case Media::Key::Left:
-            if (ExistsActiveCajita()) {
-                Cajita& c{GetActiveCajita()};
-                c.MoveX(-2);
-            }
-            break;
-        case Media::Key::Right:
-            if (ExistsActiveCajita()) {
-                Cajita& c{GetActiveCajita()};
-                c.MoveX(2);
-            }
-            break;
-        case Media::Key::Up:
-            if (ExistsActiveCajita()) {
-                Cajita& c{GetActiveCajita()};
-                c.MoveY(-2);
-            }
-            break;
-        case Media::Key::Down:
-            if (ExistsActiveCajita()) {
-                Cajita& c{GetActiveCajita()};
-                c.MoveY(2);
-            }
-            break;
-        case Media::Key::r:
-            if (ExistsActiveCajita()) {
-                Cajita& c{GetActiveCajita()};
-                c.Rotate(6);
-            }
-            break;
-        case Media::Key::q:
-            std::cout << "quiting...";
-            mContinue = false;
-        default:
-            break;
-        }
-            
-    }
+    //todo:
 }
 

@@ -48,7 +48,7 @@ void Media::Clear() {
 
 
 void Media::PollEvents() {
-    mWorld->ExistsActiveCajita();
+    mWorld.ExistsActiveCajita();
     /* Poll for events */
     while( SDL_PollEvent( &mEvent ) ){
                 

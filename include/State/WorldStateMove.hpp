@@ -1,18 +1,17 @@
-#ifndef _WORLD_STATE_PRESENTATION_H
-#define _WORLD_STATE_PRESENTATION_H
+#ifndef _WORLD_STATE_MOVE_H
+#define _WORLD_STATE_MOVE_H
 
 #include <World.hpp>
 #include <State/WorldState.hpp>
 
-class WorldStatePresentation : public WorldState {
+class WorldStateMove : public WorldState {
     World& mWorld;
 public:
-    WorldStatePresentation(World& w) : mWorld{w} {}
+    WorldStateMove(World& w) : mWorld{w} {}
     void HandleInput() override;
     void Update() override;
     void OnEnter() override;
     void OnExit() override;
-
 };
 
 #endif

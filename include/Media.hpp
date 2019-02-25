@@ -17,11 +17,12 @@ private:
 
     SDL_Event mEvent;
     std::deque<Key> mKeyQueue;
-    World* mWorld;
+    World& mWorld;
 public:
 
-    Media(): mWin{nullptr}, mWindowWidth{640}, mWindowHeight{480},
-             mRenderer{nullptr} {}
+    Media(World& w)
+        : mWin{nullptr}, mWindowWidth{640}, mWindowHeight{480},
+          mRenderer{nullptr}, mWorld{w} {}
     void Init();
     void Close();
     void PollEvents();
