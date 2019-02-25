@@ -4,6 +4,22 @@
 
 
 #include <World.hpp>
+#include <State/WorldStatePresentation.hpp>
+
+World::World()
+    : mContinue{true}, mMedia{}, mActiveCajita{},
+      mStates{new WorldStatePresentation{*this}},
+      mPresentState{}
+{
+
+}
+
+
+World::~World() {
+    for (auto state : mStates) {
+        delete state;
+    }
+}
 
 void World::Loop() {
     std::cout << "run!" << std::endl;

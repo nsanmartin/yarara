@@ -5,6 +5,7 @@
 
 #include <Media.hpp>
 #include <Cajita.hpp>
+#include <State/WorldState.hpp>
 
 class World {
 
@@ -12,9 +13,12 @@ class World {
     Media mMedia;
     std::vector<Cajita> mCajitas;
     size_t mActiveCajita;
+    std::vector<WorldState*> mStates;
+    size_t mPresentState;
 public:
 
-    World() : mContinue{true}, mMedia{}, mActiveCajita{} {}
+    World();
+    ~World();
     void Loop();
     void Update();
     void PushCajita(Cajita c) { mCajitas.push_back(c); }
