@@ -5,6 +5,7 @@
 
 #include <Media.hpp>
 #include <Cajita.hpp>
+#include <Polygon.hpp>
 #include <State/WorldState.hpp>
 
 class World {
@@ -14,7 +15,10 @@ private:
     bool mContinue;
     Media mMedia;
     std::vector<Cajita> mCajitas;
+    std::vector<Polygon> mPolygons;
     size_t mActiveCajita;
+    size_t mActivePolygon;
+
     std::vector<WorldState*> mStates;
     StateEnum mPresentState;
 public:
@@ -33,6 +37,15 @@ public:
     bool ExistsActiveCajita() { return mActiveCajita < mCajitas.size(); }
 
     Cajita& GetActiveCajita() { return mCajitas[mActiveCajita];}
+
+    void PushPolygon(Polygon p) { mPolygons.push_back(p); }
+    void PopPolygon() { mPolygons.pop_back(); }
+    bool ExistsActivePolygon() const {
+        return mActivePolygon < mPolygons.size();
+    }
+
+    Polygon& GetActivePolygon() { return mPolygons[mActivePolygon];}
+
     void ChangeState(StateEnum nextState) {
         if (nextState != mPresentState) {
             GetState()->OnExit();

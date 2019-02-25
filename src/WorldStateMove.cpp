@@ -13,6 +13,11 @@ void WorldStateMove::HandleInput() {
                     Cajita& c{mWorld.GetActiveCajita()};
                     c.MoveX(-2);
                 }
+
+                if (mWorld.ExistsActivePolygon()) {
+                    Polygon& p{mWorld.GetActivePolygon()};
+                    p.MoveX(-2);
+                }
                 break;
 
             case SDLK_RIGHT:
@@ -20,12 +25,22 @@ void WorldStateMove::HandleInput() {
                     Cajita& c{mWorld.GetActiveCajita()};
                     c.MoveX(2);
                 }
+                if (mWorld.ExistsActivePolygon()) {
+                    Polygon& p{mWorld.GetActivePolygon()};
+                    p.MoveX(2);
+                }
+
                 break;
 
             case SDLK_UP:
                 if (mWorld.ExistsActiveCajita()) {
                     Cajita& c{mWorld.GetActiveCajita()};
                     c.MoveY(-2);
+                }
+  
+                if (mWorld.ExistsActivePolygon()) {
+                    Polygon& p{mWorld.GetActivePolygon()};
+                    p.MoveY(-2);
                 }
                 break;
 
@@ -34,13 +49,38 @@ void WorldStateMove::HandleInput() {
                     Cajita& c{mWorld.GetActiveCajita()};
                     c.MoveY(2);
                 }
+                if (mWorld.ExistsActivePolygon()) {
+                    Polygon& p{mWorld.GetActivePolygon()};
+                    p.MoveY(2);
+                }
+
                 break;
 
             case SDLK_r:
-                if (mWorld.ExistsActiveCajita()) {
-                    Cajita& c{mWorld.GetActiveCajita()};
-                    c.Rotate(6);
+                
+                if (mWorld.ExistsActivePolygon()) {
+                    int rot{6};
+
+                    if (event.key.keysym.mod & KMOD_SHIFT) {
+                        rot = 354;
+                    }
+
+                    Polygon& p{mWorld.GetActivePolygon()};
+                    p.Rotate(rot);
                 }
+
+                if (mWorld.ExistsActiveCajita()) {
+                    // int rot{6};
+                    Cajita& c{mWorld.GetActiveCajita()};
+
+                    if (event.key.keysym.mod & KMOD_SHIFT) {
+                        c.Rotate(354);
+                    } else {
+                        c.Rotate(6);
+                    }
+                }
+
+
                 break;
 
             case SDLK_q:
@@ -77,7 +117,16 @@ void WorldStateMove::Update() {
 }
 
 void WorldStateMove::OnEnter() {
-    mWorld.PushCajita(Cajita{100, 100});
+    //mWorld.PushCajita(Cajita{100, 100});
+
+    std::vector<Point> vertices{
+        Point{0,0}, Point{0, 100}, Point{100, 100}, Point{100,0}};
+
+    uint64_t color {};
+    Point pos{0,0};
+    mWorld.PushPolygon(Polygon{vertices, color, pos});
+                    
+                
 }
 
 void WorldStateMove::OnExit() {

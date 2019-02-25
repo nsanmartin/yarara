@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 
 #include <Media.hpp>
@@ -8,7 +9,7 @@
 void Media::Init() {
     
     if (SDL_Init (SDL_INIT_VIDEO) < 0) {
-        std::cout << "Couldn't initialize SDL: %s\n"; exit (1);
+        std::cerr << "Couldn't initialize SDL: %s\n"; exit (1);
     }
     
     atexit (SDL_Quit);
@@ -19,7 +20,7 @@ void Media::Init() {
         mWindowHeight, mWindowWidth, SDL_WINDOW_SHOWN);
     
     if (mWin == nullptr) {
-        std::cout << "SDL_CreateWindow error: " << SDL_GetError()
+        std::cerr << "SDL_CreateWindow error: " << SDL_GetError()
                   << std::endl;
         exit(1);
     }
@@ -31,7 +32,7 @@ void Media::Init() {
     
     if (mRenderer == nullptr){
         SDL_DestroyWindow(mWin);
-        std::cout << "SDL_CreateRenderer Error: "
+        std::cerr << "SDL_CreateRenderer Error: "
                   << SDL_GetError() << std::endl;
         exit(1);
     }
@@ -48,56 +49,56 @@ void Media::Clear() {
 
 
 void Media::PollEvents() {
-    mWorld.ExistsActiveCajita();
-    /* Poll for events */
-    while( SDL_PollEvent( &mEvent ) ){
+    // mWorld.ExistsActiveCajita();
+    // /* Poll for events */
+    // while( SDL_PollEvent( &mEvent ) ){
                 
-        switch( mEvent.type ){
-            /* Keyboard event */
-            /* Pass the event data onto PrintKeyInfo() */
-        case SDL_KEYDOWN:
-            switch( mEvent.key.keysym.sym ){
-            case SDLK_LEFT:
-                mKeyQueue.push_front(Key::Left);
-                break;
-            case SDLK_RIGHT:
-                mKeyQueue.push_front(Key::Right);
-                break;
-            case SDLK_UP:
-                mKeyQueue.push_front(Key::Up);
-                break;
-            case SDLK_DOWN:
-                mKeyQueue.push_front(Key::Down);
-                break;
-            case SDLK_r:
-                mKeyQueue.push_front(Key::r);
-                break;
-            case SDLK_q:
-                mKeyQueue.push_front(Key::q);
-                break;
+    //     switch( mEvent.type ){
+    //         /* Keyboard event */
+    //         /* Pass the event data onto PrintKeyInfo() */
+    //     case SDL_KEYDOWN:
+    //         switch( mEvent.key.keysym.sym ){
+    //         case SDLK_LEFT:
+    //             mKeyQueue.push_front(Key::Left);
+    //             break;
+    //         case SDLK_RIGHT:
+    //             mKeyQueue.push_front(Key::Right);
+    //             break;
+    //         case SDLK_UP:
+    //             mKeyQueue.push_front(Key::Up);
+    //             break;
+    //         case SDLK_DOWN:
+    //             mKeyQueue.push_front(Key::Down);
+    //             break;
+    //         case SDLK_r:
+    //             mKeyQueue.push_front(Key::r);
+    //             break;
+    //         case SDLK_q:
+    //             mKeyQueue.push_front(Key::q);
+    //             break;
 
-            default:
-                break;
-            }
-            break;
-        case SDL_KEYUP:
-            //PrintKeyInfo( &mEvent.key );
-            break;
+    //         default:
+    //             break;
+    //         }
+    //         break;
+    //     case SDL_KEYUP:
+    //         //PrintKeyInfo( &mEvent.key );
+    //         break;
 
-            /* SDL_QUIT event (window close) */
-        case SDL_QUIT:
-            mKeyQueue.push_front(Key::q);
-            break;
+    //         /* SDL_QUIT event (window close) */
+    //     case SDL_QUIT:
+    //         mKeyQueue.push_front(Key::q);
+    //         break;
 
-        default:
-            break;
-        }
+    //     default:
+    //         break;
+    //     }
 
-    }
+    // }
 }
 
 
-void Media::Draw(Cajita caja) {
+void Media::Draw(const Cajita& caja) const {
     int npoints{10};
     int displ {1};
     Point desp{caja.mX/2, caja.mY/2};
@@ -139,8 +140,38 @@ void Media::Draw(Cajita caja) {
         {a.mX + displ, a.mY + displ}
 
     };
-
+    
     SDL_SetRenderDrawColor( mRenderer, 0, 0, 255, 255 );
     SDL_RenderDrawLines(mRenderer, points, npoints);
 
+}
+
+void Media::Draw(const Polygon& poly) const {
+
+    Point center{};
+    for (auto& p : poly.mVertices) {
+        if (p.mX > center.mX) center.mX = p.mX;
+        if (p.mY > center.mY) center.mY = p.mY;
+    }
+    
+    center /= 2;
+    Point pos {poly.mPos};
+    int rotation {poly.mAngle.mRot};
+    
+    std::vector<SDL_Point> vertices;
+    std::transform(poly.mVertices.begin(),poly.mVertices.end(),
+                   std::back_inserter(vertices),
+                   [&center, &rotation, &pos](const Point& p) {
+                       Point res {p - center};
+                       res.Rotate(rotation);
+                       res += pos + center;
+                       return SDL_Point{res.mX, res.mY};
+                   });
+    
+    vertices.push_back(vertices[0]);
+        
+    SDL_SetRenderDrawColor( mRenderer, 0, 0, 255, 255 );
+    SDL_RenderDrawLines(
+        mRenderer, vertices.data(), vertices.size());
+    
 }

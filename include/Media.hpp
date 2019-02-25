@@ -4,6 +4,7 @@
 #include <deque>
 #include <SDL2/SDL.h>
 #include <Cajita.hpp>
+#include <Polygon.hpp>
 
 class World;
 
@@ -29,7 +30,7 @@ public:
     void Clear();
     void PresentScreen() {SDL_RenderPresent(mRenderer); }
 
-    bool HasEvents() { return !mKeyQueue.empty(); }
+    bool HasEvents() const { return !mKeyQueue.empty(); }
 
     Key PopKey() {
         Key res{mKeyQueue.front()};
@@ -37,7 +38,9 @@ public:
         return res;
     }
 
-    void Draw(Cajita c) ;
+    void Draw(const Cajita& c) const;
+    void Draw(const Polygon& p) const;
+
     };
 
 

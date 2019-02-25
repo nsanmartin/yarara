@@ -22,3 +22,4 @@ Point operator+ (const Point& p, const Point& q) {
 Point operator- (const Point& p, const Point& q) {
     return Point(p.mX - q.mX, p.mY - q.mY);
 }
+
