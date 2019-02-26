@@ -5,8 +5,6 @@
 
 #include <Angle.hpp>
 
-class Pt { int x, y; };
-
 
 
 class Cajita {

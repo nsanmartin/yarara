@@ -31,8 +31,8 @@ void World::Loop() {
         HandleInput();
         Update();
         mMedia.Clear();
-        for (auto& cajita : mCajitas) { mMedia.Draw(cajita); }
-        for (auto& poly : mPolygons) { mMedia.Draw(poly); }
+        //for (auto& cajita : mCajitas) { mMedia.Draw(cajita); }
+        for (auto poly : mPolygons) { poly->Draw(mMedia); }
         
         mMedia.PresentScreen();
         

@@ -4,7 +4,8 @@
 #include <deque>
 #include <SDL2/SDL.h>
 #include <Cajita.hpp>
-#include <Polygon.hpp>
+#include <Polygon/Polygon.hpp>
+#include <Polygon/Triangle.hpp>
 
 class World;
 
@@ -40,8 +41,9 @@ public:
 
     void Draw(const Cajita& c) const;
     void Draw(const Polygon& p) const;
-
-    };
+    void Draw(const SDL_Point* pts, int count) const;
+    void FillTriangle(std::vector<Point> pts);
+};
 
 
 #endif

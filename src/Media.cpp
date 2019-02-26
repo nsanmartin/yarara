@@ -1,5 +1,8 @@
 #include <algorithm>
+#include <cmath>
+#include <functional>
 #include <iostream>
+#include <numeric>
 
 #include <Media.hpp>
 #include <Point.hpp>
@@ -175,3 +178,62 @@ void Media::Draw(const Polygon& poly) const {
         mRenderer, vertices.data(), vertices.size());
     
 }
+
+
+void Media::Draw(const SDL_Point* p, int count) const {
+    
+}
+
+
+void Media::FillTriangle(std::vector<Point> vertices) {
+    //todo: bound with zero, mWinWidth and mWinHeight
+    std::sort(vertices.begin(), vertices.end(),
+              [](Point& p, Point& q) {return p.mX < q.mX;});
+
+    std::vector<SDL_Point> pts;
+    int xA{vertices[0].mX};
+    int yA{vertices[0].mY};
+    
+    int xB{vertices[1].mX};
+    int yB{vertices[1].mY};
+    
+    int xC{vertices[2].mX};
+    int yC{vertices[2].mY};
+
+    assert(xA <= xB && xB <= xC);
+    double ab_slope{static_cast<double>(yB - yA) / static_cast<double>(xB - xA)};
+    double ac_slope{static_cast<double>(yC - yA) / static_cast<double>(xC - xA)};
+    double bc_slope{static_cast<double>(yC - yB) / static_cast<double>(xC - xB)};
+
+    std::function<int(double)> ab_line = [&xA, &yA, &ab_slope] (int x) { return yA + ab_slope * (x - xA);};
+    std::function<int(double)> ac_line = [&xA, &yA, &ac_slope] (int x) { return yA + ac_slope * (x - xA);};
+    std::function<int(double)> bc_line = [&xB, &yB, &bc_slope] (int x) { return yB + bc_slope * (x - xB);};
+
+    for (int x = xA; x < xB; ++x) {
+        std::vector<int> ys(std::abs(ac_line(x) - ab_line(x)));
+        std::iota(ys.begin(), ys.end(), std::min(ac_line(x), ab_line(x)));
+        std::transform(ys.begin(), ys.end(),
+                       back_inserter(pts), [&x] (int y)
+                       {
+                           return SDL_Point{x, y};
+                       });
+    }
+
+    for (int x = xB; x <= xC ; ++x) {
+        std::vector<int> ys(std::abs(ac_line(x) - bc_line(x)));
+        std::iota(ys.begin(), ys.end(), std::min(ac_line(x), bc_line(x)));
+        std::transform(ys.begin(), ys.end(),
+                       back_inserter(pts), [&x] (int y)
+                       {
+                           return SDL_Point{x, y};
+                       });
+
+    }
+
+
+    SDL_SetRenderDrawColor( mRenderer, 0, 0, 255, 255 );
+    SDL_RenderDrawPoints(
+        mRenderer, pts.data(), pts.size());
+
+}
+
