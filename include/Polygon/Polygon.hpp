@@ -21,7 +21,7 @@ public:
             Point pos = Point{})
         : mColor{color}, mVertices{vertices}, mPos{}, mAngle{}
         {}
-    ~Polygon() {}
+    virtual ~Polygon() {}
     
     void MoveX(int i) { mPos += Point{i, 0}; }
     void MoveY(int i) { mPos += Point{0, i}; }

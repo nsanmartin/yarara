@@ -19,9 +19,9 @@ World::World()
 
 
 World::~World() {
-    for (auto state : mStates) {
-        delete state;
-    }
+    for (auto state : mStates) { delete state; }
+    for (auto poly : mPolygons) { delete poly; }
+    
 }
 
 void World::Loop() {

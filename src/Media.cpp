@@ -12,7 +12,7 @@
 void Media::Init() {
     
     if (SDL_Init (SDL_INIT_VIDEO) < 0) {
-        std::cerr << "Couldn't initialize SDL: %s\n"; exit (1);
+        std::cerr << "Couldn't initialize SDL\n"; exit (1);
     }
     
     atexit (SDL_Quit);

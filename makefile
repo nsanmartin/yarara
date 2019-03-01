@@ -32,5 +32,5 @@ tags:
 	ctags -R -e .
 
 
-# clean:
-# 	rm obj/* build/*
+clean:
+	rm build/*
