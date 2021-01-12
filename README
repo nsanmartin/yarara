@@ -3,9 +3,13 @@ draw arbitrary triangles, but from this is easy to draw arbitrary
 convex polygons. Maybe this could led to simple and non simple
 polygons.
 
-Once launched it show a red screen, and after pressing 's', it will
+Once launched it shows a red screen, and after pressing 's', it will
 show a triangle that could be moved (with the arrows) and rotated
 (with r or R). Press Esc to return to the red screen and q to exit.
 
 
 
+Test it:
+
+$ make
+$ ./build/cuadrado
