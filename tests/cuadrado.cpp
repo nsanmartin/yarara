@@ -8,5 +8,5 @@ int main () {
               << "`Esc' to clear the triangle\n"
               << "`q' to quit\n";
     World w{};
-    w.Loop();
+    w.loop();
 }

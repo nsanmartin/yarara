@@ -26,32 +26,32 @@ public:
     
     World();
     ~World();
-    void Loop();
-    void Update();
-    void Quit() { mContinue = false; }
-    WorldState* GetState() {
+    void loop();
+    void update();
+    void quit() { mContinue = false; }
+    WorldState* getState() {
         return mStates.at(static_cast<size_t>(mPresentState));
     }
-    void HandleInput() { GetState()->HandleInput(); }
-    void PushCajita(Cajita c) { mCajitas.push_back(c); }
-    void PopCajita() { mCajitas.pop_back(); }
-    bool ExistsActiveCajita() { return mActiveCajita < mCajitas.size(); }
+    void handleInput() { getState()->handleInput(); }
+    void pushCajita(Cajita c) { mCajitas.push_back(c); }
+    void popCajita() { mCajitas.pop_back(); }
+    bool existsActiveCajita() { return mActiveCajita < mCajitas.size(); }
 
-    Cajita& GetActiveCajita() { return mCajitas[mActiveCajita];}
+    Cajita& getActiveCajita() { return mCajitas[mActiveCajita];}
 
-    void PushPolygon(Polygon* p) { mPolygons.push_back(p); }
-    void PopPolygon() { mPolygons.pop_back(); }
-    bool ExistsActivePolygon() const {
+    void pushPolygon(Polygon* p) { mPolygons.push_back(p); }
+    void popPolygon() { mPolygons.pop_back(); }
+    bool existsActivePolygon() const {
         return mActivePolygon < mPolygons.size();
     }
 
-    Polygon* GetActivePolygon() { return mPolygons[mActivePolygon];}
+    Polygon* getActivePolygon() { return mPolygons[mActivePolygon];}
 
-    void ChangeState(StateEnum nextState) {
+    void changeState(StateEnum nextState) {
         if (nextState != mPresentState) {
-            GetState()->OnExit();
+            getState()->onExit();
             mPresentState = nextState;
-            GetState()->OnEnter();
+            getState()->onEnter();
         }
     }
 };

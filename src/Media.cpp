@@ -9,7 +9,7 @@
 #include <World.hpp>
 
 
-void Media::Init() {
+void Media::init() {
     
     if (SDL_Init (SDL_INIT_VIDEO) < 0) {
         std::cerr << "Couldn't initialize SDL\n"; exit (1);
@@ -41,17 +41,17 @@ void Media::Init() {
     }
 }
 
-void Media::Close() {
+void Media::close() {
     SDL_DestroyWindow(mWin);
 }
 
-void Media::Clear() {
+void Media::clear() {
     SDL_SetRenderDrawColor(mRenderer, 255, 0, 0, 255);
     SDL_RenderClear(mRenderer);
 }
 
 
-void Media::PollEvents() {
+void Media::pollEvents() {
     // mWorld.ExistsActiveCajita();
     // /* Poll for events */
     // while( SDL_PollEvent( &mEvent ) ){
@@ -101,7 +101,7 @@ void Media::PollEvents() {
 }
 
 
-void Media::Draw(const Cajita& caja) const {
+void Media::draw(const Cajita& caja) const {
     int npoints{10};
     int displ {1};
     Point desp{caja.mX/2, caja.mY/2};
@@ -149,7 +149,7 @@ void Media::Draw(const Cajita& caja) const {
 
 }
 
-void Media::Draw(const Polygon& poly) const {
+void Media::draw(const Polygon& poly) const {
 
     Point center{};
     for (auto& p : poly.mVertices) {
@@ -180,12 +180,12 @@ void Media::Draw(const Polygon& poly) const {
 }
 
 
-void Media::Draw(const SDL_Point* p, int count) const {
+void Media::draw(const SDL_Point* p, int count) const {
     
 }
 
 
-void Media::FillTriangle(std::vector<Point> vertices) {
+void Media::fillTriangle(std::vector<Point> vertices) {
     //todo: bound with zero, mWinWidth and mWinHeight
     std::sort(vertices.begin(), vertices.end(),
               [](Point& p, Point& q) {return p.mX < q.mX;});

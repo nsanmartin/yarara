@@ -8,45 +8,44 @@
 #include <State/WorldStateMove.hpp>
 
 World::World()
-    : mContinue{true}, mMedia{*this},
-      mActiveCajita{}, mActivePolygon{},
-      mStates{new WorldStatePresentation{*this},
-              new WorldStateMove{*this}},
-      mPresentState{}
-{
-
-}
+    :
+        mContinue{true},
+        mMedia{*this},
+        mActiveCajita{},
+        mActivePolygon{},
+        mStates{new WorldStatePresentation{*this}, new WorldStateMove{*this}},
+        mPresentState{}
+{ }
 
 
 World::~World() {
     for (auto state : mStates) { delete state; }
     for (auto poly : mPolygons) { delete poly; }
-    
 }
+    
 
-void World::Loop() {
-    mMedia.Init();
+void World::loop() {
+    mMedia.init();
 
     while (mContinue) {
-        HandleInput();
-        Update();
-        mMedia.Clear();
+        handleInput();
+        update();
+        mMedia.clear();
         //for (auto& cajita : mCajitas) { mMedia.Draw(cajita); }
-        for (auto poly : mPolygons) { poly->Draw(mMedia); }
+        for (auto poly : mPolygons) { poly->draw(mMedia); }
         
-        mMedia.PresentScreen();
+        mMedia.presentScreen();
         
-        std::this_thread::sleep_for(
-            std::chrono::milliseconds(16));
+        std::this_thread::sleep_for(std::chrono::milliseconds(16));
         
     }
     
-    mMedia.Close();
+    mMedia.close();
     std::cout << "bye" << std::endl;
 }
 
 
-void World::Update() {
+void World::update() {
     //todo:
 }
 

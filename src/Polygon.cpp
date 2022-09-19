@@ -2,7 +2,7 @@
 #include <Polygon/Polygon.hpp>
 
 
-void Polygon::Draw(Media& media) const {
+void Polygon::draw(Media& media) const {
     //todo:
     // std::vector<Point> vertices{mVertices};
     // std::sort(vertices.begin(), vertices.end(), []

@@ -25,13 +25,13 @@ public:
     Media(World& w)
         : mWin{nullptr}, mWindowWidth{640}, mWindowHeight{480},
           mRenderer{nullptr}, mWorld{w} {}
-    void Init();
-    void Close();
-    void PollEvents();
-    void Clear();
-    void PresentScreen() {SDL_RenderPresent(mRenderer); }
+    void init();
+    void close();
+    void pollEvents();
+    void clear();
+    void presentScreen() {SDL_RenderPresent(mRenderer); }
 
-    bool HasEvents() const { return !mKeyQueue.empty(); }
+    bool hasEvents() const { return !mKeyQueue.empty(); }
 
     Key PopKey() {
         Key res{mKeyQueue.front()};
@@ -39,10 +39,10 @@ public:
         return res;
     }
 
-    void Draw(const Cajita& c) const;
-    void Draw(const Polygon& p) const;
-    void Draw(const SDL_Point* pts, int count) const;
-    void FillTriangle(std::vector<Point> pts);
+    void draw(const Cajita& c) const;
+    void draw(const Polygon& p) const;
+    void draw(const SDL_Point* pts, int count) const;
+    void fillTriangle(std::vector<Point> pts);
 
 };
 

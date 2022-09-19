@@ -15,7 +15,7 @@ public:
         {
             assert(vertices.size() == 3);
         }
-    void Draw(Media& media) const;
+    void draw(Media& media) const;
 };
 
 

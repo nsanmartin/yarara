@@ -9,7 +9,8 @@ show a triangle that could be moved (with the arrows) and rotated
 
 
 
-Test it:
+Test it in Ubuntu/Debian:
 
+$ sudo apt-get install libsdl2-2.0 libsdl2-dev
 $ make
 $ ./build/cuadrado

@@ -23,13 +23,13 @@ public:
         {}
     virtual ~Polygon() {}
     
-    void MoveX(int i) { mPos += Point{i, 0}; }
-    void MoveY(int i) { mPos += Point{0, i}; }
-    void Rotate(int i) { mAngle += i; }
-    int VerticesCount() const { return mVertices.size(); }
-    std::vector<Point> GetPoints() { return mVertices; }
+    void moveX(int i) { mPos += Point{i, 0}; }
+    void moveY(int i) { mPos += Point{0, i}; }
+    void rotate(int i) { mAngle += i; }
+    int verticesCount() const { return mVertices.size(); }
+    std::vector<Point> getPoints() { return mVertices; }
 
-    virtual void Draw(Media& m) const;
+    virtual void draw(Media& m) const;
 };
 
 

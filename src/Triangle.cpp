@@ -8,7 +8,7 @@
 #include <Media.hpp>
 #include <Polygon/Triangle.hpp>
 
-void Triangle::Draw(Media& media) const {
+void Triangle::draw(Media& media) const {
 
     Point center{};
     for (auto& p : mVertices) {
@@ -30,5 +30,5 @@ void Triangle::Draw(Media& media) const {
                        return Point{res.mX, res.mY};
                    });
     
-    media.FillTriangle(vertices);
+    media.fillTriangle(vertices);
 };

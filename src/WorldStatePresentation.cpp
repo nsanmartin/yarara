@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <State/WorldStatePresentation.hpp>
 
-void WorldStatePresentation::HandleInput() {
+void WorldStatePresentation::handleInput() {
     SDL_Event event;
     while( SDL_PollEvent( &event ) ) {
         switch( event.type ){
@@ -44,11 +44,11 @@ void WorldStatePresentation::HandleInput() {
             //     break;
 
             case SDLK_s:
-                mWorld.ChangeState(World::StateEnum::Move);
+                mWorld.changeState(World::StateEnum::Move);
                 break;
 
             case SDLK_q:
-                mWorld.Quit();
+                mWorld.quit();
                 break;
 
             default:
@@ -59,7 +59,7 @@ void WorldStatePresentation::HandleInput() {
             break;
 
         case SDL_QUIT:
-            mWorld.Quit();
+            mWorld.quit();
             break;
 
         default:
@@ -71,11 +71,11 @@ void WorldStatePresentation::HandleInput() {
 
 
 
-void WorldStatePresentation::Update() {}
+void WorldStatePresentation::update() {}
 
 
-void WorldStatePresentation::OnEnter() {}
+void WorldStatePresentation::onEnter() {}
 
-void WorldStatePresentation::OnExit() {}
+void WorldStatePresentation::onExit() {}
 
 
