@@ -1,0 +1,22 @@
+#ifndef __H_YRR_YARARA_H_
+#define __H_YRR_YARARA_H_
+
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+typedef struct {
+    int* points;
+    size_t size;
+    int* back;
+    int* front;
+} YrrYarara;
+
+YrrYarara yrrNewYarara(size_t n) ;
+void yrrFreeYarara(YrrYarara* y) ;
+void yrrYararaPopFront(YrrYarara* yarara) ;
+void yrrYararaPushBack(YrrYarara* yar, int x, int y) ;
+
+#endif
+

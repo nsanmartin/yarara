@@ -15,6 +15,9 @@ OBJS = $(subst ./src/,, $(patsubst %,$(OBJ)/%,$(OBJS_SRC)))
 build/%: tests/%.cpp $(OBJS)
 	$(CC) $(CXXFLAGS) -o $@ $< $(OBJS)  $(SDL_LDFLAGS)
 
+yarara:
+	gcc -Wall -pedantic -I./include -o ./build/$@ main.c src/yrr-*.c $(SDL_LDFLAGS)
+
 tests: $(TESTS)
 
 
