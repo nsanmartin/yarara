@@ -4,13 +4,15 @@ YrrYarara yrrNewYarara(size_t n) {
     size_t size = 2 * sizeof(int);
     int* points = malloc(size);
 
-    YrrYarara y = {
+    YrrYarara yr = {
         .points = points,
         .size = size,
         .back = points,
-        .front = points
+        .front = points,
+        .vel = yrr_velocity_from_direction(YrrSouth)
     };
-    return y;
+
+    return yr;
 }
 
 void yrrFreeYarara(YrrYarara* y) {

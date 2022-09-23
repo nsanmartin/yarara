@@ -18,6 +18,9 @@ build/%: tests/%.cpp $(OBJS)
 yarara:
 	gcc -Wall -pedantic -I./include -o ./build/$@ main.c src/yrr-*.c $(SDL_LDFLAGS)
 
+debug:
+	gcc -g -Wall -pedantic -I./include -o ./build/$@ main.c src/yrr-*.c $(SDL_LDFLAGS)
+
 tests: $(TESTS)
 
 

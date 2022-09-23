@@ -15,8 +15,8 @@ void yrr_media_init(YrrMedia* media) {
         "HW",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        media->windowHeight,
         media->windowWidth,
+        media->windowHeight,
         SDL_WINDOW_SHOWN
     );
     
@@ -38,3 +38,16 @@ void yrr_media_init(YrrMedia* media) {
 }
 
 
+void yrr_media_close(YrrMedia* media) { SDL_DestroyWindow(media->window); }
+
+void yrrGameTitleScreenRender(YrrGame* g) {
+}
+
+void yrr_media_render(YrrMedia* media) {
+    //SDL_RenderPresent(media->renderer);
+}
+
+
+void yrr_media_draw_block(YrrMedia* media) {
+
+}

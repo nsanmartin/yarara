@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <yrr-velocity.h>
 
 
 typedef struct {
@@ -11,6 +12,7 @@ typedef struct {
     size_t size;
     int* back;
     int* front;
+    YrrVelocity vel;
 } YrrYarara;
 
 YrrYarara yrrNewYarara(size_t n) ;

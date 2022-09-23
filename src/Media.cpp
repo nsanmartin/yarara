@@ -231,7 +231,7 @@ void Media::fillTriangle(std::vector<Point> vertices) {
     }
 
 
-    SDL_SetRenderDrawColor( mRenderer, 0, 0, 255, 255 );
+    SDL_SetRenderDrawColor( mRenderer, 0, 0, 102, 205 );
     SDL_RenderDrawPoints(
         mRenderer, pts.data(), pts.size());
 

@@ -11,4 +11,6 @@ time/data/*
 
 TAGS
 
-.Rhistory
+
+*.swp
+
