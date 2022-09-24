@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <yrr-velocity.h>
+#include <yrr-point.h>
 
 
 typedef struct {
@@ -20,5 +21,6 @@ void yrrFreeYarara(YrrYarara* y) ;
 void yrrYararaPopFront(YrrYarara* yarara) ;
 void yrrYararaPushBack(YrrYarara* yar, int x, int y) ;
 
+YrrPoint yrrYararaGetBackToPoint(YrrYarara* y) ;
 #endif
 

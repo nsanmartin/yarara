@@ -52,12 +52,15 @@ int main () {
     };
 
     YrrBoard board = {
-        .width = 124,
-        .height = 64,
-        .yarara = yrrNewYarara(2400) 
+        .width = 124/4,
+        .height = 64/4,
+        .yarara = yrrNewYarara(2400),
+        .level = { .food = { .x = 0, .y = 6 } }
+        //.level = { .food = { .x = 124/2, .y = 64/2 } }
+
     };
 
-    yrrYararaPushBack(&board.yarara, 3, 0);
+    yrrYararaPushBack(&board.yarara, 0, 0);
 
     YrrTitle* title = yrrGetTitle();
 

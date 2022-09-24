@@ -1,17 +1,20 @@
 #ifndef __H_YRR_BOARD_H_
 #define __H_YRR_BOARD_H_
 
+#include <yrr-point.h>
 #include <yrr-yarara.h>
 
 typedef struct {
-    int x, y;
-} YrrPoint;
+    YrrPoint food;
+} YrrLevel;
 
 typedef struct {
     int width;
     int height;
     YrrYarara yarara;
+    YrrLevel level;
 } YrrBoard;
+
 
 #endif
 

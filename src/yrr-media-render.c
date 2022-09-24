@@ -35,6 +35,7 @@ YrrPoint yrrPointFromArrayPoint(int* arr) {
 }
 
 void yrr_render_yarara(YrrGame* g) {
+    SDL_SetRenderDrawColor(g->media->renderer, 255, 148, 57, 253 );
     YrrYarara yr = g->board->yarara;
     for (int* it = yr.front; it < yr.back; it += 2) {
         YrrPoint p = yrrPointFromArrayPoint(it);
@@ -43,10 +44,19 @@ void yrr_render_yarara(YrrGame* g) {
     }
 }
 
+void yrr_render_level(YrrGame* g) {
+    YrrPoint p = g->board->level.food;
+    SDL_Rect food = yrr_block_to_sdl_rect_mod_board(g, p.x, p.y);
+
+    SDL_SetRenderDrawColor(g->media->renderer, 155, 181, 57, 253 );
+    SDL_RenderFillRect(g->media->renderer, &food);
+}
+
 void yrrGamePlayStateRender(YrrGame* g) {
     SDL_SetRenderDrawColor(g->media->renderer, 0, 81, 177, 253 );
     SDL_RenderClear(g->media->renderer);
-    SDL_SetRenderDrawColor(g->media->renderer, 155, 181, 57, 253 );
+
+    yrr_render_level(g);
 
     yrr_render_yarara(g);
 
