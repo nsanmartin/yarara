@@ -32,15 +32,14 @@ void loop(YrrGame* game) {
         t_accumulator_ms += t_delta_ms;
         
         for (;!game->quit && t_accumulator_ms > t_slice_ms; t_accumulator_ms -= t_slice_ms) {
-            yrr_process_input(game);
-            //yrr_update(game);
+            game->process_input(game);
             game->update(game);
         }
-        yrr_game_render(game);
+        game->render(game);
     }
 
     yrr_media_close(game->media);
-    free(game->board->yarara.points);
+    yrr_game_free(game);
 }
 
 int main () {
@@ -48,6 +47,7 @@ int main () {
         .window = NULL,
         .windowWidth = 1790,
         .windowHeight = 924, 
+        .keyQueue = yrrNewKeyQueue(300),
         .renderer = NULL
     };
 
@@ -67,7 +67,9 @@ int main () {
         .media = &media,
         .state = YrrTitleState,
         .board = &board,
+        .process_input = &yrrGameTitleStateProcessInput,
         .update = &yrrGameTitleStateUpdate,
+        .render = &yrrGameTitleStateRender,
         .title = title
     };
 

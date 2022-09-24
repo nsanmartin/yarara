@@ -12,6 +12,7 @@ typedef struct {
 typedef struct {
     YrrLetter* data;
     size_t size;
+    YrrPoint offset;
 } YrrTitle;
 
 #define yrrArrayFromArray(ARR) { .data = ARR, .size = LEN(ARR) }

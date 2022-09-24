@@ -16,11 +16,13 @@ typedef struct YrrGame {
     YrrMedia* media;
     enum YrrGameState state;
     YrrBoard* board;
+    void (*process_input)(YrrGame*);
     void (*update)(YrrGame*);
     void (*render)(YrrGame*);
-    const YrrTitle* title;
+    YrrTitle* title;
 } YrrGame;
 
+void yrr_game_free(YrrGame* g);
 
 void yrr_process_input(YrrGame* game) ;
 void yrr_update(YrrGame* game) ;
@@ -28,6 +30,8 @@ void yrr_update(YrrGame* game) ;
 void yrr_game_render(YrrGame* game) ;
 
 void yrrGameTitleStateUpdate(YrrGame* g) ;
+void yrrGameTitleStateProcessInput(YrrGame* game) ;
 
+void yrrGamePlayStateUpdate(YrrGame* g) ;
 #endif
 

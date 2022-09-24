@@ -32,7 +32,9 @@ YrrLetter YrrTitleLetters[] = {
 
 YrrTitle YrrGameTitle = {
    .data = YrrTitleLetters,
-   .size = 6
+   .size = 6,
+   .offset = {0} 
+
 };
 
 YrrTitle* yrrGetTitle() {
