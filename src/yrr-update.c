@@ -43,8 +43,8 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
     YrrVelocity v = yr.vel;
 
     for (int* it = yr.front; it < yr.back; it += 2) {
-        it[0] = (it[0] + v.x) % game->board->width;
-        it[1] = (it[1] + v.y) % game->board->height;
+        it[0] = (it[0] + v.x + game->board->width) % game->board->width;
+        it[1] = (it[1] + v.y + game->board->height) % game->board->height;
     }
 }
 
