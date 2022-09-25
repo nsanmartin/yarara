@@ -9,4 +9,5 @@ typedef struct {
 
 
 YrrVelocity yrr_velocity_from_direction(YrrDirection dir) ;
+YrrDirection yrr_direction_from_velocity(YrrVelocity v);
 #endif

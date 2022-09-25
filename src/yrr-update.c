@@ -14,20 +14,28 @@ void yrrGamePlayStateReadInput(YrrGame* g) {
         YrrKey k = yrrKeyQueuePopFront(q);
         switch (k) {
             case YrrK_Left:
-                yr->vel.x = -1;
-                yr->vel.y = 0;
+                if (yrr_direction_from_velocity(yr->vel) != YrrWest) {
+                    yr->vel.x = -1;
+                    yr->vel.y = 0;
+                }
                 break;
             case YrrK_Right:
-                yr->vel.x = 1;
-                yr->vel.y = 0;
+                if (yrr_direction_from_velocity(yr->vel) != YrrEast) {
+                    yr->vel.x = 1;
+                    yr->vel.y = 0;
+                }
                 break;
             case YrrK_Up:
-                yr->vel.x = 0;
-                yr->vel.y = -1;
+                if (yrr_direction_from_velocity(yr->vel) != YrrSouth) {
+                    yr->vel.x = 0;
+                    yr->vel.y = -1;
+                }
                 break;
             case YrrK_Down:
-                yr->vel.x = 0;
-                yr->vel.y = 1;
+                if (yrr_direction_from_velocity(yr->vel) != YrrNorth) {
+                    yr->vel.x = 0;
+                    yr->vel.y = 1;
+                }
                 break;
             default:
                 // do nothing
@@ -60,22 +68,22 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
 
 
     if (yrr_point_eq(next, food)) {
-
-        yrrYararaPushBack(yr, next.x, next.y);
-        
+        yr->food = (yr->back - yr->front) / 2;
         YrrPoint p = game->board->level.food;
         p.x = ((p.x + 1) * 71) % game->board->width;
         p.y = ((p.y - 1) * 371) % game->board->height;
         game->board->level.food = p;
-        printf("food x: %d, y: %d, w: %d h: %d\n", p.x, p.y,  game->board->width, game->board->height);
+    }
+
+    if (yr->food > 0) {
+        --yr->food;
+
+        yrrYararaPushBack(yr, next.x, next.y);
+        
 
     } else {
         yrrYararaPushBack(yr, next.x, next.y);
         yrrYararaPopFront(yr);
-            //for (int* it = yr->front; it < yr->back; it += 2) {
-        //    it[0] = yrrGameNextX(game, it[0]);
-        //    it[1] = yrrGameNextY(game, it[1]);
-        //}
     }
 }
 

@@ -24,7 +24,7 @@ void loop(YrrGame* game) {
 
     long t_last_update_ms = get_time_millis();
     long t_accumulator_ms = 0;
-    long t_slice_ms = 150;
+    long t_slice_ms = 100;
 
     while (!game->quit) {
         long t_delta_ms = get_time_millis() - t_last_update_ms;
@@ -57,10 +57,10 @@ int main () {
     }
 
     YrrBoard board = {
-        .width = 124/4,
-        .height = 64/4,
+        .width = 124/2,
+        .height = 64/2,
         .yarara = yrrNewYarara(2400),
-        .level = { .food = { .x = 0, .y = 6 } }
+        .level = { .food = { .x = 6, .y = 3 } }
         //.level = { .food = { .x = 124/2, .y = 64/2 } }
 
     };
@@ -70,6 +70,7 @@ int main () {
         exit(1);
     }
     yrrYararaPushBack(&board.yarara, 0, 0);
+    yrrYararaPushBack(&board.yarara, 0, 1);
 
     YrrTitle* title = yrrGetTitle();
 

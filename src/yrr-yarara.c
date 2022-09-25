@@ -8,10 +8,11 @@ YrrYarara yrrNewYarara(size_t n) {
 
     YrrYarara yr = {
         .points = points,
-        .size = size,
-        .back = points,
-        .front = points,
-        .vel = yrr_velocity_from_direction(YrrSouth)
+        .size   = size,
+        .back   = points,
+        .front  = points,
+        .vel    = yrr_velocity_from_direction(YrrWest),
+        .food   = 0
     };
 
     return yr;

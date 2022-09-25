@@ -14,6 +14,7 @@ typedef struct {
     int* back;
     int* front;
     YrrVelocity vel;
+    int food;
 } YrrYarara;
 
 YrrYarara yrrNewYarara(size_t n) ;
