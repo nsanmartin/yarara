@@ -24,7 +24,7 @@ void loop(YrrGame* game) {
 
     long t_last_update_ms = get_time_millis();
     long t_accumulator_ms = 0;
-    long t_slice_ms = 300;
+    long t_slice_ms = 150;
 
     while (!game->quit) {
         long t_delta_ms = get_time_millis() - t_last_update_ms;
@@ -51,6 +51,11 @@ int main () {
         .renderer = NULL
     };
 
+    if (media.keyQueue.data == NULL) {
+        fprintf(stderr, "Memory error\n");
+        exit(1);
+    }
+
     YrrBoard board = {
         .width = 124/4,
         .height = 64/4,
@@ -60,6 +65,10 @@ int main () {
 
     };
 
+    if (board.yarara.points == NULL) {
+        fprintf(stderr, "Memory error\n");
+        exit(1);
+    }
     yrrYararaPushBack(&board.yarara, 0, 0);
 
     YrrTitle* title = yrrGetTitle();

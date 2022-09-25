@@ -38,6 +38,10 @@ void yrrYararaPushBack(YrrYarara* yar, int x, int y) {
         } else {
         printf("realloc head\n");
             yar->points = realloc(yar->points, 2 * yar->size);
+            if (yar->points == NULL) {
+                fprintf(stderr, "Realloc error, aborting\n");
+                exit(1);
+            }
             yar->front = yar->points;
             yar->back = yar->points + yar->size;
             yar->size *= 2;

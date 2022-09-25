@@ -20,6 +20,10 @@ void yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) {
             q->back = q->data + n;
         } else {
             q->data = realloc(q->data, 2 * q->sz);
+            if (q->data == NULL) {
+                fprintf(stderr, "Realloc error, aborting\n");
+                exit(1);
+            }
             q->front = q->data;
             q->back = q->data + q->sz;
             q->sz *= 2;
