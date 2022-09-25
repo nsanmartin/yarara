@@ -68,7 +68,7 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
 
 
     if (yrr_point_eq(next, food)) {
-        yr->food = (yr->back - yr->front) / 2;
+        yr->food = yr->back - yr->front;
         YrrPoint p = game->board->level.food;
         p.x = ((p.x + 1) * 71) % game->board->width;
         p.y = ((p.y - 1) * 371) % game->board->height;

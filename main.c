@@ -59,13 +59,13 @@ int main () {
     YrrBoard board = {
         .width = 124/2,
         .height = 64/2,
-        .yarara = yrrNewYarara(2400),
+        .yarara = yrrNewYarara(1000),
         .level = { .food = { .x = 6, .y = 3 } }
         //.level = { .food = { .x = 124/2, .y = 64/2 } }
 
     };
 
-    if (board.yarara.points == NULL) {
+    if (board.yarara.data == NULL) {
         fprintf(stderr, "Memory error\n");
         exit(1);
     }

@@ -6,13 +6,14 @@
 #include <string.h>
 #include <yrr-velocity.h>
 #include <yrr-point.h>
+#include <yrr-point.h>
 
 
 typedef struct {
-    int* points;
+    YrrPoint* data;
     size_t size;
-    int* back;
-    int* front;
+    YrrPoint* back;
+    YrrPoint* front;
     YrrVelocity vel;
     int food;
 } YrrYarara;
