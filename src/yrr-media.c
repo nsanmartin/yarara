@@ -12,7 +12,7 @@ void yrr_media_init(YrrMedia* media) {
 
     //Window
     media->window = SDL_CreateWindow(
-        "HW",
+        "yarara",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         media->windowWidth,
