@@ -23,6 +23,7 @@ void yrrFreeYarara(YrrYarara* y) ;
 void yrrYararaPopFront(YrrYarara* yarara) ;
 void yrrYararaPushBack(YrrYarara* yar, int x, int y) ;
 
+bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p) ;
 YrrPoint yrrYararaGetBackToPoint(YrrYarara* y) ;
 #endif
 

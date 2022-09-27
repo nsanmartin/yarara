@@ -83,9 +83,16 @@ int main () {
         .process_input = &yrrGameTitleStateProcessInput,
         .update = &yrrGameTitleStateUpdate,
         .render = &yrrGameTitleStateRender,
-        .title = title
+        .title = title,
+        .points = 0
     };
 
     loop(&game);
+
+    if(game.state == YrrGameOverState) {
+        printf("Game over, you ate %d apples!\n", game.points);
+    } else {
+        printf("Player quited, after eating %d apples!\n", game.points);
+    }
 }
 

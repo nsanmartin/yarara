@@ -67,7 +67,13 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
     YrrPoint food = game->board->level.food;
 
 
+    if (yrrYararaGetsHitByBlock(yr, next)) {
+        game->quit = true;
+        game->state = YrrGameOverState;
+    }
+
     if (yrr_point_eq(next, food)) {
+        ++game->points;
         yr->food = yr->back - yr->front;
         YrrPoint p = game->board->level.food;
         p.x = ((p.x + 1) * 71) % game->board->width;

@@ -1,16 +1,29 @@
-This program is for drawing polygons in the screen. Right now it just
-draw arbitrary triangles, but from this is easy to draw arbitrary
-convex polygons. Maybe this could led to simple and non simple
-polygons.
+This is the snake game, similar to nibles.
 
-Once launched it shows a red screen, and after pressing 's', it will
-show a triangle that could be moved (with the arrows) and rotated
-(with r or R). Press Esc to return to the red screen and q to exit.
+Run the game:
+============
+
+Install SDL2:
+
+```
+git clone https://github.com/libsdl-org/SDL
+cd SDL
+mkdir build
+cd build
+../configure
+make
+sudo make install
+```
 
 
+Build:
 
-Test it in Ubuntu/Debian:
+make yarara
 
-$ sudo apt-get install libsdl2-2.0 libsdl2-dev
-$ make
-$ ./build/cuadrado
+Run:
+
+./build/yarara
+
+Play:
+
+Press `s' in the title screen to start. Move with the arrows, `q' to quit.

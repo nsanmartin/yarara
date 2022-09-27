@@ -69,3 +69,11 @@ YrrPoint yrrYararaGetBackToPoint(YrrYarara* yr) {
     return yr->back[-1];
 }
 
+bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p) {
+    for (YrrPoint* it = yr->front; it < yr->back; ++it) {
+        if (yrr_point_eq(*it, p)) {
+            return true;
+        }
+    }
+    return false;
+}

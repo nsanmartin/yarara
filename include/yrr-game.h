@@ -7,7 +7,7 @@
 #include <yrr-title.h>
 
 
-enum YrrGameState { YrrTitleState, YrrMenuState, YrrPlayState, OptionsState };
+enum YrrGameState { YrrTitleState, YrrMenuState, YrrPlayState, YrrOptionsState, YrrGameOverState };
 
 typedef struct YrrGame YrrGame;
 
@@ -20,6 +20,7 @@ typedef struct YrrGame {
     void (*update)(YrrGame*);
     void (*render)(YrrGame*);
     YrrTitle* title;
+    int points;
 } YrrGame;
 
 void yrr_game_free(YrrGame* g);
