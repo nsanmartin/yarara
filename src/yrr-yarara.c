@@ -2,13 +2,12 @@
 #include <yrr-yarara.h>
 #include <stdio.h>
 
-//TODO: use array of data
 YrrYarara yrrNewYarara(size_t size) {
     size_t nbytes = size * sizeof(YrrPoint);
     YrrPoint* data = malloc(nbytes);
 
     YrrYarara yr = {
-        .data = data,
+        .data   = data,
         .size   = size,
         .back   = data,
         .front  = data,
@@ -29,39 +28,40 @@ void yrrYararaPopFront(YrrYarara* yarara) {
 }
 
 
-void yrrYararaPushBack(YrrYarara* yar, int x, int y) {
-    //printf("yarara push back\n");
-    if (yar->back >= yar->data + yar->size) {
-        //fprintf(stderr, "back <= ps + sz\n");
-        //exit(1);
-        if (yar->front > yar->data) {
-            printf("move head\n");
+bool no_more_place_at_end(YrrYarara* yr) {
+    return yr->back >= yr->data + yr->size;
+}
 
-            size_t npoints = yar->back - yar->front;
-            assert(yar->front + npoints < yar->data + yar->size);
-            memcpy(yar->data, yar->front, npoints * sizeof(YrrPoint));
-            //for(int i = 0; i < npoints; ++i) {
-            //    yar->data[i] = yar->front[i];
-            //}
-            yar->front = yar->data;
-            yar->back = yar->data + npoints;
+bool has_place_at_beg(YrrYarara* yr) {
+    return yr->front > yr->data;
+}
+
+void yrrYararaPushBack(YrrYarara* yr, int x, int y) {
+    assert(yr->back <= yr->data + yr->size);
+    if (no_more_place_at_end(yr)) {
+        if (has_place_at_beg(yr)) {
+            size_t npoints = yr->back - yr->front;
+            memmove(yr->data, yr->front, sizeof(YrrPoint) * npoints);
+            yr->front = yr->data;
+            yr->back = yr->data + npoints;
         } else {
-        printf("realloc head\n");
-            yar->data = realloc(yar->data, 2 * yar->size);
-            if (yar->data == NULL) {
+            size_t new_size = yr->size << 1;
+            YrrPoint* new_data = realloc(yr->data, new_size * sizeof(YrrPoint));
+            if (new_data == NULL) {
                 fprintf(stderr, "Realloc error, aborting\n");
                 exit(1);
             }
-            yar->front = yar->data;
-            yar->back = yar->data + yar->size;
-            yar->size *= 2;
+            yr->data = new_data;
+            yr->front = yr->data;
+            yr->back = yr->data + yr->size;
+            yr->size = new_size;
         }
     }
 
-    yar->back[0].x = x;
-    yar->back[0].y = y;
-    ++yar->back;
-    //yar->back = yar->back + 2;
+    assert(yr->back < yr->data + yr->size);
+    yr->back[0].x = x;
+    yr->back[0].y = y;
+    ++yr->back;
 }
 
 YrrPoint yrrYararaGetBackToPoint(YrrYarara* yr) {

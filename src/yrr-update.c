@@ -82,8 +82,8 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
         
 
     } else {
-        yrrYararaPushBack(yr, next.x, next.y);
         yrrYararaPopFront(yr);
+        yrrYararaPushBack(yr, next.x, next.y);
     }
 }
 

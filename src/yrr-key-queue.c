@@ -12,14 +12,14 @@ YrrKeyQueue yrrNewKeyQueue(size_t size) {
 bool yrrKeyQueueIsEmpty(const YrrKeyQueue* q) { return q->front >= q->back; }
 
 void yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) {
-    if (q->back == q->data + q->sz) {
+    if (q->back >= q->data + q->sz) {
         if (q->front > q->data) {
             size_t n = q->back - q->front;
-            memcpy(q->data, q->front, n);
+            memmove(q->data, q->front, n * sizeof(YrrKey));
             q->front = q->data;
             q->back = q->data + n;
         } else {
-            q->data = realloc(q->data, 2 * q->sz);
+            q->data = realloc(q->data, 2 * q->sz * sizeof(YrrKey));
             if (q->data == NULL) {
                 fprintf(stderr, "Realloc error, aborting\n");
                 exit(1);
@@ -29,7 +29,8 @@ void yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) {
             q->sz *= 2;
         }
     }
-    *q->back++ = k;
+    q->back[0] = k;
+    ++q->back;
 }
 
 YrrKey yrrKeyQueuePopFront(YrrKeyQueue* q) {
