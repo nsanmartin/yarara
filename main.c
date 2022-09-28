@@ -31,10 +31,12 @@ void loop(YrrGame* game) {
         t_last_update_ms += t_delta_ms;
         t_accumulator_ms += t_delta_ms;
         
+        game->process_input(game);
+
         for (;!game->quit && t_accumulator_ms > t_slice_ms; t_accumulator_ms -= t_slice_ms) {
-            game->process_input(game);
             game->update(game);
         }
+
         game->render(game);
     }
 

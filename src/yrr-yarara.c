@@ -12,6 +12,7 @@ YrrYarara yrrNewYarara(size_t size) {
         .back   = data,
         .front  = data,
         .vel    = yrr_velocity_from_direction(YrrWest),
+        .next_vel    = yrr_velocity_from_direction(YrrWest),
         .food   = 0
     };
 

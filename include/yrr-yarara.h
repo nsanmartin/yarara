@@ -15,6 +15,7 @@ typedef struct {
     YrrPoint* back;
     YrrPoint* front;
     YrrVelocity vel;
+    YrrVelocity next_vel;
     int food;
 } YrrYarara;
 
