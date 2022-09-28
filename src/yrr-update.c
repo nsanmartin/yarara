@@ -68,8 +68,13 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
         ++game->points;
         yr->food = yr->back - yr->front;
         YrrPoint p = game->board->level.food;
-        p.x = ((p.x + 1) * 71) % game->board->width;
-        p.y = ((p.y - 1) * 371) % game->board->height;
+
+        // if player won this won't stop
+        do {
+            p.x = ((p.x + 1) * 71) % game->board->width;
+            p.y = ((p.y - 1) * 371) % game->board->height;
+        } while(yrrYararaGetsHitByBlock(yr, p));
+
         game->board->level.food = p;
     }
 
