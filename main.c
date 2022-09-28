@@ -22,18 +22,19 @@ void loop(YrrGame* game) {
 
     yrr_media_init(game->media);
 
-    long t_last_update_ms = get_time_millis();
-    long t_accumulator_ms = 0;
-    long t_slice_ms = 100;
+    long previous = get_time_millis();
+    long lag = 0;
+    const long slice = 100;
 
     while (!game->quit) {
-        long t_delta_ms = get_time_millis() - t_last_update_ms;
-        t_last_update_ms += t_delta_ms;
-        t_accumulator_ms += t_delta_ms;
+        long current = get_time_millis();
+        long elapsed = current - previous;
+        previous = current;
+        lag += elapsed;
         
         game->process_input(game);
 
-        for (;!game->quit && t_accumulator_ms > t_slice_ms; t_accumulator_ms -= t_slice_ms) {
+        for (;!game->quit && lag >= slice; lag -= slice){
             game->update(game);
         }
 
@@ -63,7 +64,6 @@ int main () {
         .height = 64/2,
         .yarara = yrrNewYarara(1),
         .level = { .food = { .x = 6, .y = 3 } }
-        //.level = { .food = { .x = 124/2, .y = 64/2 } }
 
     };
 
