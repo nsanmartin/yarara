@@ -6,8 +6,8 @@
 #include <string.h>
 #include <yrr-velocity.h>
 #include <yrr-point.h>
-#include <yrr-point.h>
 
+typedef struct YrrBoard YrrBoard;
 
 typedef struct {
     YrrPoint* data;
@@ -17,14 +17,18 @@ typedef struct {
     YrrVelocity vel;
     YrrVelocity next_vel;
     int food;
+    bool alive;
 } YrrYarara;
 
-YrrYarara yrrNewYarara(size_t n) ;
-void yrrFreeYarara(YrrYarara* y) ;
-void yrrYararaPopFront(YrrYarara* yarara) ;
-void yrrYararaPushBack(YrrYarara* yar, int x, int y) ;
+YrrYarara yrrNewYarara(size_t n);
+void yrrFreeYarara(YrrYarara* y);
+void yrrYararaPopFront(YrrYarara* yarara);
+void yrrYararaPushBack(YrrYarara* yar, YrrPoint p);
 
-bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p) ;
-YrrPoint yrrYararaGetBackToPoint(YrrYarara* y) ;
+bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p);
+YrrPoint yrrYararaGetBackToPoint(YrrYarara* y);
+YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy);
+YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b);
+
 #endif
 

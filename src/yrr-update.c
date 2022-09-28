@@ -36,57 +36,31 @@ void yrrGamePlayStateReadInput(YrrGame* g) {
     }
 }
 
-int yrrGameNextX(YrrGame* game, int x) {
-    return (x + game->board->yarara.vel.x + game->board->width) % game->board->width;
-}
-
-int yrrGameNextY(YrrGame* game, int y) {
-    return (y + game->board->yarara.vel.y + game->board->height) % game->board->height;
-}
-
-YrrPoint yrrGameNextPoint(YrrGame* g, YrrPoint p) {
-    p.x = yrrGameNextX(g, p.x);
-    p.y = yrrGameNextY(g, p.y);
-    return p;
-}
-
 void yrrGamePlayStateUpdate(YrrGame* game) {
 
     yrrGamePlayStateReadInput(game) ;
     YrrYarara* yr = &game->board->yarara;
 
-    YrrPoint next = yrrGameNextPoint(game, yrrYararaGetBackToPoint(yr));
-    YrrPoint food = game->board->level.food;
-
-
-    if (yrrYararaGetsHitByBlock(yr, next)) {
+    YrrPoint next = yrrYararaPlayStateUpdateHumanPlayer(yr, game->board);
+    
+    if (!yr->alive) {
         game->quit = true;
         game->state = YrrGameOverState;
     }
 
+    YrrPoint food = game->board->level.food;
     if (yrr_point_eq(next, food)) {
         ++game->points;
         yr->food = yr->back - yr->front;
         YrrPoint p = game->board->level.food;
 
-        // if player won this won't stop
+        // if board is filled this won't stop, but is unlikely
         do {
             p.x = ((p.x + 1) * 71) % game->board->width;
             p.y = ((p.y - 1) * 371) % game->board->height;
         } while(yrrYararaGetsHitByBlock(yr, p));
 
         game->board->level.food = p;
-    }
-
-    if (yr->food > 0) {
-        --yr->food;
-
-        yrrYararaPushBack(yr, next.x, next.y);
-        
-
-    } else {
-        yrrYararaPopFront(yr);
-        yrrYararaPushBack(yr, next.x, next.y);
     }
 }
 

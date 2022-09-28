@@ -8,7 +8,7 @@ typedef struct {
     YrrPoint food;
 } YrrLevel;
 
-typedef struct {
+typedef struct YrrBoard {
     int width;
     int height;
     YrrYarara yarara;

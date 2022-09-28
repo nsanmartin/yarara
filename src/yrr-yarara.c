@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <yrr-yarara.h>
 #include <stdio.h>
+#include <yrr-board.h>
 
 YrrYarara yrrNewYarara(size_t size) {
     size_t nbytes = size * sizeof(YrrPoint);
@@ -13,8 +14,12 @@ YrrYarara yrrNewYarara(size_t size) {
         .front  = data,
         .vel    = yrr_velocity_from_direction(YrrWest),
         .next_vel    = yrr_velocity_from_direction(YrrWest),
-        .food   = 0
+        .food   = 0,
+        .alive = true
     };
+
+    yrrYararaPushBack(&yr, (YrrPoint) { .x = 0, .y = 0});
+    yrrYararaPushBack(&yr, (YrrPoint) { .x = 0, .y = 1});
 
     return yr;
 }
@@ -37,7 +42,7 @@ bool has_place_at_beg(YrrYarara* yr) {
     return yr->front > yr->data;
 }
 
-void yrrYararaPushBack(YrrYarara* yr, int x, int y) {
+void yarara_push_back(YrrYarara* yr, int x, int y) {
     assert(yr->back <= yr->data + yr->size);
     if (no_more_place_at_end(yr)) {
         if (has_place_at_beg(yr)) {
@@ -65,6 +70,11 @@ void yrrYararaPushBack(YrrYarara* yr, int x, int y) {
     ++yr->back;
 }
 
+void yrrYararaPushBack(YrrYarara* yr, YrrPoint p) {
+    yarara_push_back(yr, p.x, p.y);
+}
+
+
 YrrPoint yrrYararaGetBackToPoint(YrrYarara* yr) {
     assert(yr->back > yr->front);
     return yr->back[-1];
@@ -77,4 +87,55 @@ bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p) {
         }
     }
     return false;
+}
+
+YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy) {
+    assert(yr->back > yr->front);
+    YrrPoint p = yr->back[-1];
+    return (YrrPoint) {
+        .x = (maxx + p.x + yr->vel.x) % maxx,
+        .y = (maxy + p.y + yr->vel.y) % maxy
+    };
+}
+
+YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b) {
+
+    const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
+    if (yrrYararaGetsHitByBlock(yr, next)) {
+        yr->alive = false;
+    }
+
+    if (yr->food > 0) {
+        --yr->food;
+
+        yrrYararaPushBack(yr, next);
+        
+
+    } else {
+        yrrYararaPopFront(yr);
+        yrrYararaPushBack(yr, next);
+    }
+
+    return next;
+}
+
+YrrPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b) {
+
+    const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
+    if (yrrYararaGetsHitByBlock(yr, next)) {
+        yr->alive = false;
+    }
+
+    if (yr->food > 0) {
+        --yr->food;
+
+        yrrYararaPushBack(yr, next);
+        
+
+    } else {
+        yrrYararaPopFront(yr);
+        yrrYararaPushBack(yr, next);
+    }
+
+    return next;
 }

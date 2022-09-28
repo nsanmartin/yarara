@@ -71,9 +71,6 @@ int main () {
         fprintf(stderr, "Memory error\n");
         exit(1);
     }
-    yrrYararaPushBack(&board.yarara, 0, 0);
-    yrrYararaPushBack(&board.yarara, 0, 1);
-
     YrrTitle* title = yrrGetTitle();
 
 
