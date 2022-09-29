@@ -1,38 +1,22 @@
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
-CXXFLAGS = -Wall -std=c++17 -I./include 
+CFLAGS = -Wall  -pedantic -I./include 
 CC = g++
 
 BUILD = build
-TESTS_SRC = $(subst .cpp,, $(wildcard ./tests/*.cpp))
-TESTS = $(subst ./tests/,, $(patsubst %,$(BUILD)/%,$(TESTS_SRC)))
 
-OBJ=./obj
-OBJS_SRC = $(subst .cpp,.o, $(wildcard ./src/*.cpp))
-OBJS = $(subst ./src/,, $(patsubst %,$(OBJ)/%,$(OBJS_SRC)))
-
-
-build/%: tests/%.cpp $(OBJS)
-	$(CC) $(CXXFLAGS) -o $@ $< $(OBJS)  $(SDL_LDFLAGS)
+SRCS=$(wildcard src/*.c)
 
 yarara:
-	gcc -Wall -pedantic -I./include -o ./build/$@ main.c src/yrr-*.c $(SDL_LDFLAGS)
+	gcc $(CFLAGS) $(SDL_CFLAGS) -o $(BUILD)/$@ main.c $(SRCS) $(SDL_LDFLAGS)
 
 debug:
-	gcc -g -Wall -pedantic -I./include -o ./build/$@ main.c src/yrr-*.c $(SDL_LDFLAGS)
-
-tests: $(TESTS)
+	gcc -g $(CFLAGS) $(SDL_CFLAGS) -o $(BUILD)/$@ main.c $(SRCS) $(SDL_LDFLAGS)
 
 
 build:
 	if [ ! -d build ]; then mkdir build; fi
 
-obj: build
-	if [ ! -d obj ]; then mkdir obj; fi
-
-
-obj/%.o: src/%.cpp obj
-	g++ $(CXXFLAGS) -c -o $@ $<
 
 tags:
 	ctags -R -e .
