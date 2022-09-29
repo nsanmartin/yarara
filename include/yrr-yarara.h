@@ -27,8 +27,9 @@ void yrrYararaPushBack(YrrYarara* yar, YrrPoint p);
 
 bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p);
 YrrPoint yrrYararaGetBackToPoint(YrrYarara* y);
-YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy);
+// YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy);
 YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b);
 
+YrrPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b);
 #endif
 

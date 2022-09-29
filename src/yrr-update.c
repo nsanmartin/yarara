@@ -41,8 +41,9 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
     yrrGamePlayStateReadInput(game) ;
     YrrYarara* yr = &game->board->yarara;
 
-    YrrPoint next = yrrYararaPlayStateUpdateHumanPlayer(yr, game->board);
-    
+    //YrrPoint next = yrrYararaPlayStateUpdateHumanPlayer(yr, game->board);
+    YrrPoint next = yrrYararaPlayStateUpdateAutomatePlayer(yr, game->board);
+
     if (!yr->alive) {
         game->quit = true;
         game->state = YrrGameOverState;

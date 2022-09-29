@@ -89,6 +89,11 @@ bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p) {
     return false;
 }
 
+YrrVelocity rotate_90deg(YrrVelocity v) {
+    return (YrrVelocity) { .x = v.y, .y = -v.x };
+}
+
+
 YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy) {
     assert(yr->back > yr->front);
     YrrPoint p = yr->back[-1];
@@ -98,9 +103,21 @@ YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy) {
     };
 }
 
-YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b) {
+void yrrYararaSetCompuNextVelocity(YrrYarara* yr, const YrrBoard* b) {
+    const YrrPoint food = b->level.food;
+    assert(yr->back > yr->front);
+    YrrPoint p = yr->back[-1];
+    yr->vel = (YrrVelocity){
+        .x = p.x == food.x ? 0 : (food.x < p.x ? -1 : 1),
+        .y = p.x != food.x ? 0 : (food.y < p.y ? -1 : 1)
+    };
 
-    const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
+    for (int i = 0; yrrYararaGetsHitByBlock(yr, yrrYararaNextPoint(yr, b->width, b->height)) && i < 4; ++i) {
+        yr->vel = rotate_90deg(yr->vel);
+    }
+}
+
+void yarara_move_next(YrrYarara* yr, YrrPoint next) {
     if (yrrYararaGetsHitByBlock(yr, next)) {
         yr->alive = false;
     }
@@ -115,27 +132,25 @@ YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b) {
         yrrYararaPopFront(yr);
         yrrYararaPushBack(yr, next);
     }
+
+}
+
+YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b) {
+
+    const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
+
+    yarara_move_next(yr, next);
 
     return next;
 }
 
+
 YrrPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b) {
 
+    yrrYararaSetCompuNextVelocity(yr, b);
     const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
-    if (yrrYararaGetsHitByBlock(yr, next)) {
-        yr->alive = false;
-    }
 
-    if (yr->food > 0) {
-        --yr->food;
-
-        yrrYararaPushBack(yr, next);
-        
-
-    } else {
-        yrrYararaPopFront(yr);
-        yrrYararaPushBack(yr, next);
-    }
+    yarara_move_next(yr, next);
 
     return next;
 }
