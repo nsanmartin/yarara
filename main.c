@@ -7,15 +7,9 @@
 #include <yrr-game.h>
 #include <yrr-yarara.h>
 #include <yrr-title.h>
+#include <yrr-util.h>
+#include <yrr-point.h>
 
-
-enum { NS_PER_SECOND = 1000000000, MS_PER_SECOND = 1000, NS_PER_MS = 1000000 };
-
-long get_time_millis() {
-    struct timespec t;
-    clock_gettime(CLOCK_REALTIME, &t);
-    return t.tv_sec * MS_PER_SECOND + t.tv_nsec / NS_PER_MS;
-}
 
 
 void loop(YrrGame* game) {
@@ -48,8 +42,8 @@ void loop(YrrGame* game) {
 int main () {
     YrrMedia media = {
         .window = NULL,
-        .windowWidth = 1790,
-        .windowHeight = 924, 
+        .windowWidth = 1700,
+        .windowHeight = 800, 
         .keyQueue = yrrNewKeyQueue(300),
         .renderer = NULL
     };
@@ -59,13 +53,24 @@ int main () {
         exit(1);
     }
 
+
+    int boardW = 124/2;
+    int boardH = 64/2;
+
+    YrrPoint limits = (YrrPoint) { .x = boardW, .y = boardH };
+    YrrPoint half = (YrrPoint) { .x = limits.x/2, .y = limits.y/2 };
+    YrrPoint first = get_pseudo_rand((YrrPoint) { .x=0, .y=0 }, half);
     YrrBoard board = {
-        .width = 124/2,
-        .height = 64/2,
-        .yarara = yrrNewYarara(1),
-        .level = { .food = { .x = 6, .y = 3 } }
+        .width = boardW,
+        .height = boardH,
+        .yarara = yrrNewYarara(1, first),
+        .level = { .food = get_pseudo_rand(half, limits)}
 
     };
+
+    printf("limits: (%d, %d)\n", board.width, board.height);
+    printf("first: (%d, %d), food0: (%d, %d)\n",
+            first.x, first.y, board.level.food.x, board.level.food.y);
 
     if (board.yarara.data == NULL) {
         fprintf(stderr, "Memory error\n");

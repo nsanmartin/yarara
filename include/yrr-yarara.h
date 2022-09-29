@@ -20,14 +20,13 @@ typedef struct {
     bool alive;
 } YrrYarara;
 
-YrrYarara yrrNewYarara(size_t n);
+YrrYarara yrrNewYarara(size_t n, YrrPoint first);
 void yrrFreeYarara(YrrYarara* y);
 void yrrYararaPopFront(YrrYarara* yarara);
 void yrrYararaPushBack(YrrYarara* yar, YrrPoint p);
 
 bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p);
 YrrPoint yrrYararaGetBackToPoint(YrrYarara* y);
-// YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy);
 YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b);
 
 YrrPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b);

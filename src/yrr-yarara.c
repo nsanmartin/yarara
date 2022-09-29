@@ -3,7 +3,20 @@
 #include <stdio.h>
 #include <yrr-board.h>
 
-YrrYarara yrrNewYarara(size_t size) {
+YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy) {
+    assert(yr->back >= yr->front);
+    YrrPoint p = yr->back[-1];
+    return (YrrPoint) {
+        .x = (maxx + p.x + yr->vel.x) % maxx,
+        .y = (maxy + p.y + yr->vel.y) % maxy
+    };
+}
+
+YrrPoint get_pseudorand_point(YrrPoint limits, bool left) {
+    return (YrrPoint) { .x = 0, .y = 0};
+}
+
+YrrYarara yrrNewYarara(size_t size, YrrPoint first) {
     size_t nbytes = size * sizeof(YrrPoint);
     YrrPoint* data = malloc(nbytes);
 
@@ -18,8 +31,8 @@ YrrYarara yrrNewYarara(size_t size) {
         .alive = true
     };
 
-    yrrYararaPushBack(&yr, (YrrPoint) { .x = 0, .y = 0});
-    yrrYararaPushBack(&yr, (YrrPoint) { .x = 0, .y = 1});
+    yrrYararaPushBack(&yr, first);
+    //yrrYararaPushBack(&yr, yrrYararaNextPoint(&yr, limits.x, limits.y));
 
     return yr;
 }
@@ -93,15 +106,6 @@ YrrVelocity rotate_90deg(YrrVelocity v) {
     return (YrrVelocity) { .x = v.y, .y = -v.x };
 }
 
-
-YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy) {
-    assert(yr->back > yr->front);
-    YrrPoint p = yr->back[-1];
-    return (YrrPoint) {
-        .x = (maxx + p.x + yr->vel.x) % maxx,
-        .y = (maxy + p.y + yr->vel.y) % maxy
-    };
-}
 
 void yrrYararaSetCompuNextVelocity(YrrYarara* yr, const YrrBoard* b) {
     const YrrPoint food = b->level.food;
