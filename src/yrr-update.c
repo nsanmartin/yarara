@@ -11,7 +11,7 @@ void yrrGamePlayStateReadInput(YrrGame* g) {
     YrrKeyQueue* q = g->media->keyQueue;
     //, the second is the human, use another aproach
     YrrYarara* yr = g->board->players->beg[1].yarara;
-    while (!yrrKeyQueueIsEmpty(q)) {
+    if (!yrrKeyQueueIsEmpty(q)) {
         YrrKey k = yrrKeyQueuePopFront(q);
         switch (k) {
             case YrrK_Left:
