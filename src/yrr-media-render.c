@@ -27,17 +27,10 @@ void yrrGameTitleStateRender(YrrGame* g) {
 }
 
 
-YrrPoint yrrPointFromArrayPoint(int* arr) {
-    YrrPoint p;
-    p.x = arr[0];
-    p.y = arr[1];
-    return p;
-}
-
 void yrr_render_yarara(YrrGame* g) {
     SDL_SetRenderDrawColor(g->media->renderer, 255, 148, 57, 253 );
-    YrrYarara yr = g->board->yarara;
-    for (YrrPoint* it = yr.front; it < yr.back; ++it) {
+    YrrYarara* yr = g->board->yarara;
+    for (YrrPoint* it = yr->front; it < yr->back; ++it) {
         SDL_Rect r = yrr_block_to_sdl_rect_mod_board(g, it->x, it->y);
         SDL_RenderFillRect(g->media->renderer, &r );
     }

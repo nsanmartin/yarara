@@ -7,14 +7,16 @@
 #include <yrr-title.h>
 
 
-enum YrrGameState { YrrTitleState, YrrMenuState, YrrPlayState, YrrOptionsState, YrrGameOverState };
+typedef enum {
+    YrrStateTitle, YrrStateMenu, YrrStatePlay, YrrStateOptions, YrrStateGameOver
+} YrrGameState ;
 
 typedef struct YrrGame YrrGame;
 
 typedef struct YrrGame {
     bool quit;
     YrrMedia* media;
-    enum YrrGameState state;
+    YrrGameState state;
     YrrBoard* board;
     void (*process_input)(YrrGame*);
     void (*update)(YrrGame*);
@@ -23,8 +25,10 @@ typedef struct YrrGame {
     int points;
 } YrrGame;
 
-void yrr_game_free(YrrGame* g);
+YrrGame* yrrNewGame(YrrPoint win_sz, YrrPoint board_sz);
+void yrrFreeGame(YrrGame* game);
 
+void yrrResetGame(YrrGame* game);
 void yrr_process_input(YrrGame* game) ;
 void yrr_update(YrrGame* game) ;
 
@@ -34,5 +38,7 @@ void yrrGameTitleStateUpdate(YrrGame* g) ;
 void yrrGameTitleStateProcessInput(YrrGame* game) ;
 
 void yrrGamePlayStateUpdate(YrrGame* g) ;
+
+void yrrChangeStateMethods(YrrGame* game, YrrGameState new_state);
 #endif
 

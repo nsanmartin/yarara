@@ -5,6 +5,8 @@
 
 #include <SDL2/SDL.h>
 
+#include <yrr-point.h>
+
 typedef struct YrrGame YrrGame;
 
 typedef enum { YrrK_a, YrrK_b, YrrK_r, YrrK_q, YrrK_Left, YrrK_Right, YrrK_Up, YrrK_Down } YrrKey;
@@ -22,15 +24,12 @@ typedef struct {
     SDL_Renderer* renderer;
     SDL_Event event;
 
-    YrrKeyQueue keyQueue;
-    //std::deque<Key> mKeyQueue;
-    //World* world;
+    YrrKeyQueue* keyQueue;
 } YrrMedia;
 
-void yrr_media_init(YrrMedia* media);
-void yrr_media_close(YrrMedia* media) ;
-//void yrr_media_render(YrrMedia* game) ;
-//void yrr_media_render_game(YrrGame* game) ;
+YrrMedia* yrrNewMedia(YrrPoint winsz);
+void yrrFreeMedia(YrrMedia* media);
+
 void yrr_media_render(YrrMedia* media) ;
 
 void yrr_media_draw_block(YrrMedia* media);
@@ -39,7 +38,8 @@ void yrrGamePlayStateRender(YrrGame* g) ;
 
 // utils
 
-YrrKeyQueue yrrNewKeyQueue(size_t size) ;
+YrrKeyQueue* yrrNewKeyQueue(size_t size) ;
+void yrrFreeKeyQueue(YrrKeyQueue* queue);
 void yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) ;
 bool yrrKeyQueueIsEmpty(const YrrKeyQueue* q) ;
 YrrKey yrrKeyQueuePopFront(YrrKeyQueue* q) ;

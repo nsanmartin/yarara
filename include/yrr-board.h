@@ -11,10 +11,13 @@ typedef struct {
 typedef struct YrrBoard {
     int width;
     int height;
-    YrrYarara yarara;
+    YrrYarara* yarara;
     YrrLevel level;
 } YrrBoard;
 
 
+YrrBoard* yrrNewBoard(YrrPoint sz);
+void yrrFreeBoard(YrrBoard* board);
+void yrrResetBoard(YrrBoard* board);
 #endif
 

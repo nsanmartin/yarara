@@ -1,16 +1,18 @@
 #include <yrr-media.h>
 #include <SDL2/SDL.h>
 
+#include <yrr-point.h>
+
+
 void yrr_media_init(YrrMedia* media) {
     
     if (SDL_Init (SDL_INIT_VIDEO) < 0) {
         fprintf(stderr, "Couldn't initialize SDL\n");
         exit (1);
     }
-    
+
     atexit (SDL_Quit);
 
-    //Window
     media->window = SDL_CreateWindow(
         "yarara",
         SDL_WINDOWPOS_CENTERED,
@@ -25,7 +27,6 @@ void yrr_media_init(YrrMedia* media) {
         exit(1);
     }
     
-    //Renderer
     media->renderer = SDL_CreateRenderer(
         media->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
     );
@@ -37,8 +38,36 @@ void yrr_media_init(YrrMedia* media) {
     }
 }
 
+void yrrFreeMedia(YrrMedia* media) {
+    SDL_DestroyWindow(media->window); 
+    yrrFreeKeyQueue(media->keyQueue);
+    free(media);
+}
 
-void yrr_media_close(YrrMedia* media) { SDL_DestroyWindow(media->window); }
+YrrMedia* yrrNewMedia(YrrPoint winsz) {
+    YrrKeyQueue* key_queue = yrrNewKeyQueue(300);
+    if (!key_queue) {
+        return NULL;
+    }
+
+    YrrMedia* rv = malloc(sizeof(YrrMedia));
+    if (!rv) {
+        return NULL;
+    }
+
+    *rv = (YrrMedia) {
+        .window = NULL,
+        .windowWidth = winsz.x,
+        .windowHeight = winsz.y, 
+        .keyQueue = key_queue,
+        .renderer = NULL
+    };
+
+    yrr_media_init(rv);
+    return rv;
+}
+
+
 
 void yrrGameTitleScreenRender(YrrGame* g) {
 }

@@ -1,7 +1,6 @@
 #include <yrr-game.h>
 #include <yrr-media.h>
 
-void yrrGamePlayStateProcessInput(YrrGame* game) ;
 
 void yrrGameTitleStateProcessInput(YrrGame* game) {
     SDL_Event event;
@@ -11,9 +10,7 @@ void yrrGameTitleStateProcessInput(YrrGame* game) {
             switch( event.key.keysym.sym ) {
 
             case SDLK_s:
-                game->process_input = &yrrGamePlayStateProcessInput;
-                game->update = &yrrGamePlayStateUpdate;
-                game->render = &yrrGamePlayStateRender;
+                yrrChangeStateMethods(game, YrrStatePlay);
                 break;
 
             case SDLK_q:
@@ -46,16 +43,16 @@ void yrrGamePlayStateProcessInput(YrrGame* g) {
             switch( event.key.keysym.sym ) {
 
              case SDLK_LEFT:
-                 yrrKeyQueuePushBack(&g->media->keyQueue, YrrK_Left);
+                 yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Left);
                  break;
              case SDLK_RIGHT:
-                 yrrKeyQueuePushBack(&g->media->keyQueue, YrrK_Right);
+                 yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Right);
                  break;
              case SDLK_UP:
-                 yrrKeyQueuePushBack(&g->media->keyQueue, YrrK_Up);
+                 yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Up);
                  break;
             case SDLK_DOWN:
-                 yrrKeyQueuePushBack(&g->media->keyQueue, YrrK_Down);
+                 yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Down);
                 break;
 
             case SDLK_q:

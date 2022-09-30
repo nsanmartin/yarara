@@ -20,8 +20,10 @@ typedef struct {
     bool alive;
 } YrrYarara;
 
-YrrYarara yrrNewYarara(size_t n, YrrPoint first);
+YrrYarara* yrrNewYarara(size_t n, YrrPoint first);
 void yrrFreeYarara(YrrYarara* y);
+void yrrResetYarara(YrrYarara* yarara, YrrPoint first);
+
 void yrrYararaPopFront(YrrYarara* yarara);
 void yrrYararaPushBack(YrrYarara* yar, YrrPoint p);
 

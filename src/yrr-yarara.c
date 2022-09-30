@@ -12,15 +12,20 @@ YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy) {
     };
 }
 
-YrrPoint get_pseudorand_point(YrrPoint limits, bool left) {
-    return (YrrPoint) { .x = 0, .y = 0};
-}
 
-YrrYarara yrrNewYarara(size_t size, YrrPoint first) {
+YrrYarara* yrrNewYarara(size_t size, YrrPoint first) {
     size_t nbytes = size * sizeof(YrrPoint);
     YrrPoint* data = malloc(nbytes);
+    if (!data) {
+        return NULL;
+    }
 
-    YrrYarara yr = {
+    YrrYarara* rv = malloc(sizeof(YrrYarara));
+    if (!rv) {
+        return NULL;
+    }
+
+    *rv = (YrrYarara) {
         .data   = data,
         .size   = size,
         .back   = data,
@@ -31,15 +36,26 @@ YrrYarara yrrNewYarara(size_t size, YrrPoint first) {
         .alive = true
     };
 
-    yrrYararaPushBack(&yr, first);
+    yrrYararaPushBack(rv, first);
     //yrrYararaPushBack(&yr, yrrYararaNextPoint(&yr, limits.x, limits.y));
 
-    return yr;
+    return rv;
+}
+
+void yrrResetYarara(YrrYarara* yarara, YrrPoint first) {
+    yarara->back = yarara->front = yarara->data;
+    yarara->vel    = yrr_velocity_from_direction(YrrWest);
+    yarara->next_vel    = yrr_velocity_from_direction(YrrWest);
+    yarara->food   = 0;
+    yarara->alive = true;
+    yrrYararaPushBack(yarara, first);
+
 }
 
 void yrrFreeYarara(YrrYarara* y) {
     free(y->data);
 }
+
 
 void yrrYararaPopFront(YrrYarara* yarara) {
     assert(yarara->front < yarara->back);

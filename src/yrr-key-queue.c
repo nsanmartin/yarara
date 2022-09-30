@@ -1,12 +1,32 @@
 #include <assert.h>
 
 #include <yrr-media.h>
-//#include <yrr-game.h>
+#include <yrr-point.h>
 
-YrrKeyQueue yrrNewKeyQueue(size_t size) {
+void yrrFreeKeyQueue(YrrKeyQueue* queue) {
+    free(queue->data);
+    free(queue);
+}
+
+YrrKeyQueue* yrrNewKeyQueue(size_t size) {
+
     YrrKey* data = malloc(size * sizeof (YrrKey));
-    YrrKeyQueue rv = { .data = data, .sz = size, .front = data, .back = data };
-    return rv;
+    if (!data) {
+        return NULL;
+    }
+    YrrKeyQueue* queue = malloc(sizeof(YrrKeyQueue));
+    if (!queue) {
+        return NULL;
+    }
+
+    *queue = (YrrKeyQueue) { .data = data, .sz = size, .front = data, .back = data };
+    return queue;
+}
+
+void yrrKeyQueueFree(YrrKeyQueue* q) {
+    free(q->data);
+    free(q);
+
 }
 
 bool yrrKeyQueueIsEmpty(const YrrKeyQueue* q) { return q->front >= q->back; }

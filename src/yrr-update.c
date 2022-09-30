@@ -8,8 +8,8 @@ void yrrGameTitleStateUpdate(YrrGame* g) {
 }
 
 void yrrGamePlayStateReadInput(YrrGame* g) {
-    YrrKeyQueue* q = &g->media->keyQueue;
-    YrrYarara* yr = &g->board->yarara;
+    YrrKeyQueue* q = g->media->keyQueue;
+    YrrYarara* yr = g->board->yarara;
     while (!yrrKeyQueueIsEmpty(q)) {
         YrrKey k = yrrKeyQueuePopFront(q);
         switch (k) {
@@ -39,14 +39,14 @@ void yrrGamePlayStateReadInput(YrrGame* g) {
 void yrrGamePlayStateUpdate(YrrGame* game) {
 
     yrrGamePlayStateReadInput(game) ;
-    YrrYarara* yr = &game->board->yarara;
+    YrrYarara* yr = game->board->yarara;
 
     //YrrPoint next = yrrYararaPlayStateUpdateHumanPlayer(yr, game->board);
     YrrPoint next = yrrYararaPlayStateUpdateAutomatePlayer(yr, game->board);
 
     if (!yr->alive) {
         game->quit = true;
-        game->state = YrrGameOverState;
+        game->state = YrrStateGameOver;
     }
 
     YrrPoint food = game->board->level.food;
@@ -57,10 +57,11 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
 
         // if board is filled this won't stop, but is unlikely
         do {
-            p.x = ((p.x + 1) * 71) % game->board->width;
-            p.y = ((p.y - 1) * 371) % game->board->height;
+            p.x =  ((p.x + 1) * 71) % game->board->width;
+            p.y =  ((game->board->height + (p.y - 1)) * 371) % game->board->height;
         } while(yrrYararaGetsHitByBlock(yr, p));
 
+        printf(" %d %d\n", p.x, p.y);
         game->board->level.food = p;
     }
 }
