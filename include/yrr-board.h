@@ -3,6 +3,7 @@
 
 #include <yrr-point.h>
 #include <yrr-yarara.h>
+#include <yrr-player.h>
 
 typedef struct {
     YrrPoint food;
@@ -11,7 +12,7 @@ typedef struct {
 typedef struct YrrBoard {
     int width;
     int height;
-    YrrYarara* yarara;
+    YrrVecPlayers* players;
     YrrLevel level;
 } YrrBoard;
 

@@ -1,5 +1,4 @@
 #include <yrr-util.h>
-#include <assert.h>
 
 long get_time_millis() {
     struct timespec t;

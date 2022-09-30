@@ -9,7 +9,8 @@ void yrrGameTitleStateUpdate(YrrGame* g) {
 
 void yrrGamePlayStateReadInput(YrrGame* g) {
     YrrKeyQueue* q = g->media->keyQueue;
-    YrrYarara* yr = g->board->yarara;
+    //, the second is the human, use another aproach
+    YrrYarara* yr = g->board->players->beg[1].yarara;
     while (!yrrKeyQueueIsEmpty(q)) {
         YrrKey k = yrrKeyQueuePopFront(q);
         switch (k) {
@@ -39,29 +40,38 @@ void yrrGamePlayStateReadInput(YrrGame* g) {
 void yrrGamePlayStateUpdate(YrrGame* game) {
 
     yrrGamePlayStateReadInput(game) ;
-    YrrYarara* yr = game->board->yarara;
+    YrrYarara* compu = game->board->players->beg->yarara;
+    YrrYarara* human = game->board->players->beg[1].yarara;
 
-    //YrrPoint next = yrrYararaPlayStateUpdateHumanPlayer(yr, game->board);
-    YrrPoint next = yrrYararaPlayStateUpdateAutomatePlayer(yr, game->board);
+    YrrPoint next_human = yrrYararaPlayStateUpdateHumanPlayer(human, game->board);
+    YrrPoint next_compu = yrrYararaPlayStateUpdateAutomatePlayer(compu, game->board);
 
-    if (!yr->alive) {
+    if (!compu->alive || !human->alive) {
         game->quit = true;
         game->state = YrrStateGameOver;
-    }
+    } 
 
     YrrPoint food = game->board->level.food;
-    if (yrr_point_eq(next, food)) {
+    bool food_eaten = false;
+    if (yrr_point_eq(next_human, food)) {
         ++game->points;
-        yr->food = yr->back - yr->front;
+        human->food = human->back - human->front;
+        food_eaten = true;
+    }
+
+    if (yrr_point_eq(next_compu, food)) {
+        compu->food = compu->back - compu->front;
+        food_eaten = true;
+    }
+    if (food_eaten) {
         YrrPoint p = game->board->level.food;
 
         // if board is filled this won't stop, but is unlikely
         do {
-            p.x =  ((p.x + 1) * 71) % game->board->width;
-            p.y =  ((game->board->height + (p.y - 1)) * 371) % game->board->height;
-        } while(yrrYararaGetsHitByBlock(yr, p));
+            p.x =  ((p.x + 1) * 41) % game->board->width;
+            p.y =  ((game->board->height + (p.y - 1)) * 277) % game->board->height;
+        } while(yrrBoardBlockOccupiedByAnyYarara(game->board, p));
 
-        //printf(" %d %d\n", p.x, p.y);
         game->board->level.food = p;
     }
 }

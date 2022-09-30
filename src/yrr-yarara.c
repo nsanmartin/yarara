@@ -2,6 +2,8 @@
 #include <yrr-yarara.h>
 #include <stdio.h>
 #include <yrr-board.h>
+#include <yrr-game.h>
+
 
 YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy) {
     assert(yr->back >= yr->front);
@@ -122,6 +124,16 @@ YrrVelocity rotate_90deg(YrrVelocity v) {
     return (YrrVelocity) { .x = v.y, .y = -v.x };
 }
 
+bool yrrBoardBlockOccupiedByAnyYarara(const YrrBoard* board, YrrPoint p) {
+    YrrVecPlayers* ps = board->players;
+    for (YrrPlayer* it = ps->beg; it < ps->end; ++it) {
+        if (yrrYararaGetsHitByBlock(it->yarara, p)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 void yrrYararaSetCompuNextVelocity(YrrYarara* yr, const YrrBoard* b) {
     const YrrPoint food = b->level.food;
@@ -132,13 +144,14 @@ void yrrYararaSetCompuNextVelocity(YrrYarara* yr, const YrrBoard* b) {
         .y = p.x != food.x ? 0 : (food.y < p.y ? -1 : 1)
     };
 
-    for (int i = 0; yrrYararaGetsHitByBlock(yr, yrrYararaNextPoint(yr, b->width, b->height)) && i < 4; ++i) {
+    for (int i = 0; yrrBoardBlockOccupiedByAnyYarara(b, yrrYararaNextPoint(yr, b->width, b->height)) && i < 4; ++i) {
         yr->vel = rotate_90deg(yr->vel);
     }
 }
 
-void yarara_move_next(YrrYarara* yr, YrrPoint next) {
-    if (yrrYararaGetsHitByBlock(yr, next)) {
+
+void yarara_move_next(YrrYarara* yr, YrrPoint next, const YrrBoard* board) {
+    if (yrrBoardBlockOccupiedByAnyYarara(board, next)) {
         yr->alive = false;
     }
 
@@ -159,7 +172,7 @@ YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b) {
 
     const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
 
-    yarara_move_next(yr, next);
+    yarara_move_next(yr, next, b);
 
     return next;
 }
@@ -170,7 +183,7 @@ YrrPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b
     yrrYararaSetCompuNextVelocity(yr, b);
     const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
 
-    yarara_move_next(yr, next);
+    yarara_move_next(yr, next, b);
 
     return next;
 }

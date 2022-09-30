@@ -27,10 +27,11 @@ void yrrResetYarara(YrrYarara* yarara, YrrPoint first);
 void yrrYararaPopFront(YrrYarara* yarara);
 void yrrYararaPushBack(YrrYarara* yar, YrrPoint p);
 
-bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p);
 YrrPoint yrrYararaGetBackToPoint(YrrYarara* y);
 YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b);
 
 YrrPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b);
+
+bool yrrBoardBlockOccupiedByAnyYarara(const YrrBoard* board, YrrPoint p);
 #endif
 

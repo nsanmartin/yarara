@@ -10,11 +10,12 @@
 #include <yrr-util.h>
 #include <yrr-point.h>
 
+#define SLICE 100
 
 void loop(YrrGame* game) {
     long previous = get_time_millis();
     long lag = 0;
-    const long slice = 2;
+    const long slice = SLICE;
 
     while (!game->quit) {
         long current = get_time_millis();
