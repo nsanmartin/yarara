@@ -61,7 +61,7 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
             p.y =  ((game->board->height + (p.y - 1)) * 371) % game->board->height;
         } while(yrrYararaGetsHitByBlock(yr, p));
 
-        printf(" %d %d\n", p.x, p.y);
+        //printf(" %d %d\n", p.x, p.y);
         game->board->level.food = p;
     }
 }
