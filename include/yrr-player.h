@@ -7,6 +7,7 @@
 
 typedef struct {
     YrrYarara* yarara;
+    int score;
 } YrrPlayer;
 
 typedef struct {
@@ -16,5 +17,6 @@ typedef struct {
 } YrrVecPlayers;
 
 YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts);
+void yrrResetPlayer(YrrPlayer* player, YrrPoint first);
 #endif
 

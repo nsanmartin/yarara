@@ -40,13 +40,13 @@ void yrrGamePlayStateReadInput(YrrGame* g) {
 void yrrGamePlayStateUpdate(YrrGame* game) {
 
     yrrGamePlayStateReadInput(game) ;
-    YrrYarara* compu = game->board->players->beg->yarara;
-    YrrYarara* human = game->board->players->beg[1].yarara;
+    YrrPlayer* compu = game->board->players->beg;
+    YrrPlayer* human = game->board->players->beg + 1;
 
-    YrrPoint next_human = yrrYararaPlayStateUpdateHumanPlayer(human, game->board);
-    YrrPoint next_compu = yrrYararaPlayStateUpdateAutomatePlayer(compu, game->board);
+    YrrPoint next_human = yrrYararaPlayStateUpdateHumanPlayer(human->yarara, game->board);
+    YrrPoint next_compu = yrrYararaPlayStateUpdateAutomatePlayer(compu->yarara, game->board);
 
-    if (!compu->alive || !human->alive) {
+    if (!compu->yarara->alive || !human->yarara->alive) {
         game->quit = true;
         game->state = YrrStateGameOver;
     } 
@@ -54,13 +54,14 @@ void yrrGamePlayStateUpdate(YrrGame* game) {
     YrrPoint food = game->board->level.food;
     bool food_eaten = false;
     if (yrr_point_eq(next_human, food)) {
-        ++game->points;
-        human->food = human->back - human->front;
+        ++human->score;
+        human->yarara->food = human->yarara->back - human->yarara->front;
         food_eaten = true;
     }
 
     if (yrr_point_eq(next_compu, food)) {
-        compu->food = compu->back - compu->front;
+        ++compu->score;
+        compu->yarara->food = compu->yarara->back - compu->yarara->front;
         food_eaten = true;
     }
     if (food_eaten) {

@@ -41,7 +41,15 @@ YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts) {
         if (!yarara) {
             return NULL;
         }
-        *rv->end++ = (YrrPlayer) { .yarara = yarara };
+        *rv->end++ = (YrrPlayer) {
+            .yarara = yarara,
+            .score = 0
+        };
     }
     return rv;
+}
+
+void yrrResetPlayer(YrrPlayer* player, YrrPoint first) {
+    yrrResetYarara(player->yarara, first);
+    player->score = 0;
 }

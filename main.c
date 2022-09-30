@@ -10,7 +10,7 @@
 #include <yrr-util.h>
 #include <yrr-point.h>
 
-#define SLICE 100
+#define SLICE 180
 
 void loop(YrrGame* game) {
     long previous = get_time_millis();
@@ -36,6 +36,11 @@ void loop(YrrGame* game) {
 void run_game (YrrGame* game) {
     loop(game);
     if (game->state == YrrStateGameOver) {
+        YrrPlayer* compu = game->board->players->beg;
+        YrrPlayer* human = game->board->players->beg + 1;
+        char* winner = compu->yarara->alive ? "compu" : "human";
+        printf("Game over, %s won. Human score: %d, compu score: %d.\n",
+               winner, human->score, compu->score);
         yrrResetGame(game);
         yrrChangeStateMethods(game, YrrStatePlay);
         run_game(game);

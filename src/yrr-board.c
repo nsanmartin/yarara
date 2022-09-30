@@ -40,14 +40,11 @@ YrrBoard* yrrNewBoard(YrrPoint sz) {
 
 void yrrResetBoard(YrrBoard* board) {
     YrrPoint half = (YrrPoint) { .x = board->width/2, .y = board->height/2 };
-    YrrPoint first = get_pseudo_rand((YrrPoint) { .x=0, .y=0 }, half);
-    yrrResetYarara(board->players->beg->yarara, first);
-    first.x = (first.x + half.x) % board->width;
-    first.y = (first.y + half.y) % board->height;
-    yrrResetYarara(board->players->beg[1].yarara, first);
-    //,todo: apply to all
-    //YrrVecPlayers* ps = board->players;
-    //for (YrrPlayer* it = ps->beg; it < it->end; ++it) {
-    //    yrrResetYarara(it, first);
-    //}
+    YrrPoint first_compu = get_pseudo_rand((YrrPoint) { .x=0, .y=0 }, half);
+    YrrPoint first_human = (YrrPoint) {
+        .x = (first_compu.x + half.x) % board->width,
+        .y = (first_compu.y + half.y) % board->height
+    };
+    yrrResetPlayer(board->players->beg, first_compu);
+    yrrResetPlayer(board->players->beg + 1, first_human);
 }
