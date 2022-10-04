@@ -28,7 +28,7 @@ typedef struct YrrGame {
 YrrGame* yrrNewGame(YrrPoint win_sz, YrrPoint board_sz);
 void yrrFreeGame(YrrGame* game);
 
-void yrrResetGame(YrrGame* game);
+int yrrResetGame(YrrGame* game);
 void yrr_process_input(YrrGame* game) ;
 void yrr_update(YrrGame* game) ;
 

@@ -32,30 +32,35 @@ YrrYarara* yrrNewYarara(size_t size, YrrPoint first) {
         .size   = size,
         .back   = data,
         .front  = data,
-        .vel    = yrr_velocity_from_direction(YrrWest),
-        .next_vel    = yrr_velocity_from_direction(YrrWest),
+        .vel    = yrr_velocity_west(),
+        .next_vel    = yrr_velocity_west(),
         .food   = 0,
         .alive = true
     };
 
-    yrrYararaPushBack(rv, first);
-    //yrrYararaPushBack(&yr, yrrYararaNextPoint(&yr, limits.x, limits.y));
+    int error = yrrYararaPushBack(rv, first);
+    if (error) {
+        yrrFreeYarara(rv);
+        return NULL;
+    }
 
     return rv;
 }
 
-void yrrResetYarara(YrrYarara* yarara, YrrPoint first) {
+int yrrResetYarara(YrrYarara* yarara, YrrPoint first) {
     yarara->back = yarara->front = yarara->data;
-    yarara->vel    = yrr_velocity_from_direction(YrrWest);
-    yarara->next_vel    = yrr_velocity_from_direction(YrrWest);
+    yarara->vel    = yrr_velocity_west();
+    yarara->next_vel    = yrr_velocity_west();
     yarara->food   = 0;
     yarara->alive = true;
-    yrrYararaPushBack(yarara, first);
+    int error = yrrYararaPushBack(yarara, first);
+    return error;
 
 }
 
 void yrrFreeYarara(YrrYarara* y) {
     free(y->data);
+    free(y);
 }
 
 
@@ -73,7 +78,7 @@ bool has_place_at_beg(YrrYarara* yr) {
     return yr->front > yr->data;
 }
 
-void yarara_push_back(YrrYarara* yr, int x, int y) {
+int yarara_push_back(YrrYarara* yr, int x, int y) {
     assert(yr->back <= yr->data + yr->size);
     if (no_more_place_at_end(yr)) {
         if (has_place_at_beg(yr)) {
@@ -86,7 +91,7 @@ void yarara_push_back(YrrYarara* yr, int x, int y) {
             YrrPoint* new_data = realloc(yr->data, new_size * sizeof(YrrPoint));
             if (new_data == NULL) {
                 fprintf(stderr, "Realloc error, aborting\n");
-                exit(1);
+                return -1;
             }
             yr->data = new_data;
             yr->front = yr->data;
@@ -99,10 +104,11 @@ void yarara_push_back(YrrYarara* yr, int x, int y) {
     yr->back[0].x = x;
     yr->back[0].y = y;
     ++yr->back;
+    return 0;
 }
 
-void yrrYararaPushBack(YrrYarara* yr, YrrPoint p) {
-    yarara_push_back(yr, p.x, p.y);
+int yrrYararaPushBack(YrrYarara* yr, YrrPoint p) {
+    return yarara_push_back(yr, p.x, p.y);
 }
 
 
@@ -150,7 +156,7 @@ void yrrYararaSetCompuNextVelocity(YrrYarara* yr, const YrrBoard* b) {
 }
 
 
-void yarara_move_next(YrrYarara* yr, YrrPoint next, const YrrBoard* board) {
+int yarara_move_next(YrrYarara* yr, YrrPoint next, const YrrBoard* board) {
     if (yrrBoardBlockOccupiedByAnyYarara(board, next)) {
         yr->alive = false;
     }
@@ -158,14 +164,21 @@ void yarara_move_next(YrrYarara* yr, YrrPoint next, const YrrBoard* board) {
     if (yr->food > 0) {
         --yr->food;
 
-        yrrYararaPushBack(yr, next);
+        int error = yrrYararaPushBack(yr, next);
+        if (error) {
+            return error;
+        }
         
 
     } else {
         yrrYararaPopFront(yr);
-        yrrYararaPushBack(yr, next);
-    }
+        int error = yrrYararaPushBack(yr, next);
+        if (error) {
+            return -1;
+        }
 
+    }
+    return 0;
 }
 
 YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b) {

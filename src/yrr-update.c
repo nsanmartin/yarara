@@ -15,16 +15,16 @@ void yrrGamePlayStateReadInput(YrrGame* g) {
         YrrKey k = yrrKeyQueuePopFront(q);
         switch (k) {
             case YrrK_Left:
-                yr->next_vel = yrr_velocity_from_direction(YrrEast);
+                yr->next_vel = yrr_velocity_east();
                 break;
             case YrrK_Right:
-                yr->next_vel = yrr_velocity_from_direction(YrrWest);
+                yr->next_vel = yrr_velocity_west();
                 break;
             case YrrK_Up:
-                yr->next_vel = yrr_velocity_from_direction(YrrNorth);
+                yr->next_vel = yrr_velocity_north();
                 break;
             case YrrK_Down:
-                yr->next_vel = yrr_velocity_from_direction(YrrSouth);
+                yr->next_vel = yrr_velocity_south();
                 break;
             default:
                 // do nothing

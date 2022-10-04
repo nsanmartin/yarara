@@ -19,6 +19,6 @@ typedef struct YrrBoard {
 
 YrrBoard* yrrNewBoard(YrrPoint sz);
 void yrrFreeBoard(YrrBoard* board);
-void yrrResetBoard(YrrBoard* board);
+int yrrResetBoard(YrrBoard* board);
 #endif
 

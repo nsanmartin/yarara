@@ -37,22 +37,39 @@ void yrrGameTitleStateProcessInput(YrrGame* game) {
 
 void yrrGamePlayStateProcessInput(YrrGame* g) {
     SDL_Event event;
+    int error = 0; 
     while( SDL_PollEvent( &event ) ) {
         switch( event.type ){
         case SDL_KEYDOWN:
             switch( event.key.keysym.sym ) {
 
              case SDLK_LEFT:
-                 yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Left);
+                 error = yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Left);
+                 if (error) {
+                     g->quit = true;;
+                     return;
+                 }
                  break;
              case SDLK_RIGHT:
-                 yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Right);
+                 error = yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Right);
+                 if (error) {
+                     g->quit = true;;
+                     return;
+                 }
                  break;
              case SDLK_UP:
-                 yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Up);
+                 error = yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Up);
+                 if (error) {
+                     g->quit = true;;
+                     return;
+                 }
                  break;
             case SDLK_DOWN:
-                 yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Down);
+                 error = yrrKeyQueuePushBack(g->media->keyQueue, YrrK_Down);
+                 if (error) {
+                     g->quit = true;;
+                     return;
+                 }
                 break;
 
             case SDLK_q:

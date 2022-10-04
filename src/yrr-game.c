@@ -44,8 +44,10 @@ YrrGame* yrrNewGame(YrrPoint win_sz, YrrPoint board_sz) {
     return rv;
 }
 
-void yrrResetGame(YrrGame* game) {
-    yrrResetBoard(game->board);
+int yrrResetGame(YrrGame* game) {
+    if (game == NULL) { return -1; }
+    int error = yrrResetBoard(game->board);
+    if (error) { return error; }
     *game = (YrrGame) {
         .quit = false,
         .media = game->media,
@@ -57,6 +59,7 @@ void yrrResetGame(YrrGame* game) {
         .title = game->title,
         .points = 0
     };
+    return 0;
 }
 
 void yrrChangeStateMethods(YrrGame* game, YrrGameState new_state) {

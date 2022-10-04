@@ -38,13 +38,16 @@ YrrBoard* yrrNewBoard(YrrPoint sz) {
     return rv;
 }
 
-void yrrResetBoard(YrrBoard* board) {
+int yrrResetBoard(YrrBoard* board) {
     YrrPoint half = (YrrPoint) { .x = board->width/2, .y = board->height/2 };
     YrrPoint first_compu = get_pseudo_rand((YrrPoint) { .x=0, .y=0 }, half);
     YrrPoint first_human = (YrrPoint) {
         .x = (first_compu.x + half.x) % board->width,
         .y = (first_compu.y + half.y) % board->height
     };
-    yrrResetPlayer(board->players->beg, first_compu);
-    yrrResetPlayer(board->players->beg + 1, first_human);
+    int error = yrrResetPlayer(board->players->beg, first_compu);
+    if (!error) {
+        error = yrrResetPlayer(board->players->beg + 1, first_human);
+    }
+    return error;
 }

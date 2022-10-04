@@ -4,11 +4,11 @@
 #include <yrr-point.h>
 
 
-void yrr_media_init(YrrMedia* media) {
+int yrr_media_init(YrrMedia* media) {
     
     if (SDL_Init (SDL_INIT_VIDEO) < 0) {
         fprintf(stderr, "Couldn't initialize SDL\n");
-        exit (1);
+        return -1;
     }
 
     atexit (SDL_Quit);
@@ -24,7 +24,7 @@ void yrr_media_init(YrrMedia* media) {
     
     if (media->window == NULL) {
         fprintf(stderr, "SDL_CreateWindow error: %s\n", SDL_GetError());
-        exit(1);
+        return -1;
     }
     
     media->renderer = SDL_CreateRenderer(
@@ -34,8 +34,10 @@ void yrr_media_init(YrrMedia* media) {
     if (media->renderer == NULL) {
         SDL_DestroyWindow(media->window);
         fprintf(stderr, "SDL_CreateRenderer Error: %s\n", SDL_GetError());
-        exit(1);
+        return -1;
     }
+
+    return 0;
 }
 
 void yrrFreeMedia(YrrMedia* media) {
@@ -63,7 +65,10 @@ YrrMedia* yrrNewMedia(YrrPoint winsz) {
         .renderer = NULL
     };
 
-    yrr_media_init(rv);
+    if(yrr_media_init(rv) != 0) {
+        free(rv);
+        return NULL;
+    }
     return rv;
 }
 

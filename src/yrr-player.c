@@ -49,7 +49,8 @@ YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts) {
     return rv;
 }
 
-void yrrResetPlayer(YrrPlayer* player, YrrPoint first) {
-    yrrResetYarara(player->yarara, first);
+int yrrResetPlayer(YrrPlayer* player, YrrPoint first) {
     player->score = 0;
+    int error = yrrResetYarara(player->yarara, first);
+    return error;
 }

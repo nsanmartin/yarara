@@ -40,7 +40,7 @@ void yrrGamePlayStateRender(YrrGame* g) ;
 
 YrrKeyQueue* yrrNewKeyQueue(size_t size) ;
 void yrrFreeKeyQueue(YrrKeyQueue* queue);
-void yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) ;
+int yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) ;
 bool yrrKeyQueueIsEmpty(const YrrKeyQueue* q) ;
 YrrKey yrrKeyQueuePopFront(YrrKeyQueue* q) ;
 #endif

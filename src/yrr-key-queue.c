@@ -4,8 +4,10 @@
 #include <yrr-point.h>
 
 void yrrFreeKeyQueue(YrrKeyQueue* queue) {
-    free(queue->data);
-    free(queue);
+    if (queue) {
+        free(queue->data);
+        free(queue);
+    }
 }
 
 YrrKeyQueue* yrrNewKeyQueue(size_t size) {
@@ -31,7 +33,7 @@ void yrrKeyQueueFree(YrrKeyQueue* q) {
 
 bool yrrKeyQueueIsEmpty(const YrrKeyQueue* q) { return q->front >= q->back; }
 
-void yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) {
+int yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) {
     if (q->back >= q->data + q->sz) {
         if (q->front > q->data) {
             size_t n = q->back - q->front;
@@ -41,8 +43,8 @@ void yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) {
         } else {
             q->data = realloc(q->data, 2 * q->sz * sizeof(YrrKey));
             if (q->data == NULL) {
-                fprintf(stderr, "Realloc error, aborting\n");
-                exit(1);
+                fprintf(stderr, "Realloc error\n");
+                return -1;
             }
             q->front = q->data;
             q->back = q->data + q->sz;
@@ -51,6 +53,7 @@ void yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) {
     }
     q->back[0] = k;
     ++q->back;
+    return 0;
 }
 
 YrrKey yrrKeyQueuePopFront(YrrKeyQueue* q) {

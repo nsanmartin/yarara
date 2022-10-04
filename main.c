@@ -41,9 +41,11 @@ void run_game (YrrGame* game) {
         char* winner = compu->yarara->alive ? "compu" : "human";
         printf("Game over, %s won. Human score: %d, compu score: %d.\n",
                winner, human->score, compu->score);
-        yrrResetGame(game);
-        yrrChangeStateMethods(game, YrrStatePlay);
-        run_game(game);
+        int error = yrrResetGame(game);
+        if (!error) {
+            yrrChangeStateMethods(game, YrrStatePlay);
+            run_game(game);
+        }
     }
 }
 
@@ -51,5 +53,8 @@ int main() {
     YrrPoint win_sz = (YrrPoint) { .x = 1700, .y = 800 };
     YrrPoint board_sz = (YrrPoint) { .x = 124/2, .y = 64/2 };
     YrrGame* game = yrrNewGame(win_sz, board_sz);
+    if (game == NULL) {
+        fprintf(stderr, "Could not load game, exiting.\n");
+    }
     run_game(game);
 }

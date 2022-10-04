@@ -22,10 +22,10 @@ typedef struct {
 
 YrrYarara* yrrNewYarara(size_t n, YrrPoint first);
 void yrrFreeYarara(YrrYarara* y);
-void yrrResetYarara(YrrYarara* yarara, YrrPoint first);
+int yrrResetYarara(YrrYarara* yarara, YrrPoint first);
 
 void yrrYararaPopFront(YrrYarara* yarara);
-void yrrYararaPushBack(YrrYarara* yar, YrrPoint p);
+int yrrYararaPushBack(YrrYarara* yar, YrrPoint p);
 
 YrrPoint yrrYararaGetBackToPoint(YrrYarara* y);
 YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b);
