@@ -1,6 +1,7 @@
 #include <yrr-game.h>
 #include <yrr-media.h>
 
+void yrrChangeStateMethods(YrrGame* game, YrrGameState new_state);
 
 void yrrGameTitleStateProcessInput(YrrGame* game) {
     SDL_Event event;

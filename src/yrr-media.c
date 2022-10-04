@@ -72,16 +72,3 @@ YrrMedia* yrrNewMedia(YrrPoint winsz) {
     return rv;
 }
 
-
-
-void yrrGameTitleScreenRender(YrrGame* g) {
-}
-
-void yrr_media_render(YrrMedia* media) {
-    //SDL_RenderPresent(media->renderer);
-}
-
-
-void yrr_media_draw_block(YrrMedia* media) {
-
-}

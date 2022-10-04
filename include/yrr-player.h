@@ -3,7 +3,10 @@
 
 #include <stddef.h>
 
-#include <yrr-yarara.h>
+#include <yrr-point.h>
+
+
+typedef struct YrrYarara YrrYarara;
 
 typedef struct {
     YrrYarara* yarara;

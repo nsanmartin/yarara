@@ -1,8 +1,12 @@
-#include <yrr-game.h>
 #include <yrr-media.h>
 #include <yrr-board.h>
+#include <yrr-game.h>
+#include <yrr-title.h>
 
 void yrrGamePlayStateProcessInput(YrrGame* game) ;
+void yrrGameTitleStateUpdate(YrrGame* g) ;
+void yrrGameTitleStateProcessInput(YrrGame* game) ;
+void yrrGamePlayStateUpdate(YrrGame* g) ;
 
 void yrrFreeGame(YrrGame* game) {
     yrrFreeMedia(game->media);
@@ -76,3 +80,16 @@ void yrrChangeStateMethods(YrrGame* game, YrrGameState new_state) {
     }
     game->state = new_state;
 }
+
+void yrrGamePrintResults(YrrGame* g) {
+    if (!g || !g->board || !g->board->players || !g->board->players->beg) {
+        fprintf(stderr, "error: invalid game.");
+    } else {
+        YrrPlayer* compu = g->board->players->beg;
+        YrrPlayer* human = g->board->players->beg + 1;
+        char* winner = compu->yarara->alive ? "compu" : "human";
+        printf("Game over, %s won. Human score: %d, compu score: %d.\n",
+                winner, human->score, compu->score);
+    }
+}
+

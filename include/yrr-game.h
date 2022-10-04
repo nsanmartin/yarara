@@ -2,9 +2,13 @@
 #define __H_YRR_GAME_H_
 
 #include <stdbool.h>
-#include <yrr-media.h>
-#include <yrr-board.h>
-#include <yrr-title.h>
+
+#include <yrr-point.h>
+#include <yrr-util.h>
+
+typedef struct YrrMedia YrrMedia;
+typedef struct YrrBoard YrrBoard;
+typedef struct YrrTitle YrrTitle;
 
 
 typedef enum {
@@ -29,16 +33,6 @@ YrrGame* yrrNewGame(YrrPoint win_sz, YrrPoint board_sz);
 void yrrFreeGame(YrrGame* game);
 
 int yrrResetGame(YrrGame* game);
-void yrr_process_input(YrrGame* game) ;
-void yrr_update(YrrGame* game) ;
-
-void yrr_game_render(YrrGame* game) ;
-
-void yrrGameTitleStateUpdate(YrrGame* g) ;
-void yrrGameTitleStateProcessInput(YrrGame* game) ;
-
-void yrrGamePlayStateUpdate(YrrGame* g) ;
-
-void yrrChangeStateMethods(YrrGame* game, YrrGameState new_state);
+char* yrrGameGetWinner(YrrGame* g);
 #endif
 

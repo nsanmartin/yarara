@@ -1,5 +1,6 @@
 #include <yrr-game.h>
 #include <yrr-media.h>
+#include <yrr-title.h>
 
 #include <stdio.h>
 void yrrGameTitleStateUpdate(YrrGame* g) {

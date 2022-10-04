@@ -9,7 +9,7 @@
 
 typedef struct YrrBoard YrrBoard;
 
-typedef struct {
+typedef struct YrrYarara {
     YrrPoint* data;
     size_t size;
     YrrPoint* back;

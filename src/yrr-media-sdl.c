@@ -1,4 +1,6 @@
+#include <yrr-media.h>
 #include <yrr-media-sdl.h>
+#include <yrr-board.h>
 
 
 SDL_Rect yrr_block_to_sdl_rect(YrrGame* game, int x, int y) {

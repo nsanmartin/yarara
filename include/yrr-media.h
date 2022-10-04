@@ -18,7 +18,7 @@ typedef struct {
   YrrKey* back;
 } YrrKeyQueue;
 
-typedef struct {
+typedef struct YrrMedia {
     SDL_Window* window;
     int windowWidth, windowHeight;
     SDL_Renderer* renderer;
@@ -30,9 +30,7 @@ typedef struct {
 YrrMedia* yrrNewMedia(YrrPoint winsz);
 void yrrFreeMedia(YrrMedia* media);
 
-void yrr_media_render(YrrMedia* media) ;
 
-void yrr_media_draw_block(YrrMedia* media);
 void yrrGameTitleStateRender(YrrGame* g) ;
 void yrrGamePlayStateRender(YrrGame* g) ;
 

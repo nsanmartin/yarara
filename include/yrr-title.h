@@ -9,7 +9,7 @@ typedef struct {
     size_t size;
 } YrrLetter;
 
-typedef struct {
+typedef struct YrrTitle {
     YrrLetter* data;
     size_t size;
     YrrPoint offset;

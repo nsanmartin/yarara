@@ -2,6 +2,7 @@
 #include <yrr-board.h>
 #include <yrr-game.h>
 #include <yrr-media-sdl.h>
+#include <yrr-title.h>
 
 void yrr_render_title(YrrGame* g) {
     for (int i = 0; i < g->title->size; ++i) {

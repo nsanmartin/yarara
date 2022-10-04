@@ -3,12 +3,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#include <yrr-media.h>
-#include <yrr-game.h>
-#include <yrr-yarara.h>
-#include <yrr-title.h>
-#include <yrr-util.h>
-#include <yrr-point.h>
+#include <yarara.h>
 
 #define SLICE 180
 
@@ -34,19 +29,13 @@ void loop(YrrGame* game) {
 }
 
 void run_game (YrrGame* game) {
-    loop(game);
-    if (game->state == YrrStateGameOver) {
-        YrrPlayer* compu = game->board->players->beg;
-        YrrPlayer* human = game->board->players->beg + 1;
-        char* winner = compu->yarara->alive ? "compu" : "human";
-        printf("Game over, %s won. Human score: %d, compu score: %d.\n",
-               winner, human->score, compu->score);
+    do {
+        loop(game);
+        yrrGamePrintResults(game);
+        if (game->state != YrrStateGameOver) { return; }
         int error = yrrResetGame(game);
-        if (!error) {
-            yrrChangeStateMethods(game, YrrStatePlay);
-            run_game(game);
-        }
-    }
+        if (error) { return; }
+    } while (true);
 }
 
 int main() {
