@@ -25,6 +25,7 @@ void yrrGameTitleStateRender(YrrGame* g) {
     yrr_render_title(g);
 
     SDL_RenderPresent(g->media->renderer);
+    SDL_Delay(173);
 }
 
 

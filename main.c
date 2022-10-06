@@ -14,9 +14,8 @@ void loop(YrrGame* game) {
 
     while (!game->quit) {
         long current = get_time_millis();
-        long elapsed = current - previous;
+        lag += current - previous;
         previous = current;
-        lag += elapsed;
         
         game->process_input(game);
 
