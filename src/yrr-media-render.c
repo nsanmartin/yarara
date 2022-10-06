@@ -5,8 +5,8 @@
 #include <yrr-title.h>
 
 void yrr_render_title(YrrGame* g) {
-    for (int i = 0; i < g->title->size; ++i) {
-        for (int j = 0; j < g->title->data[i].size; ++j) {
+    for (size_t i = 0; i < g->title->size; ++i) {
+        for (size_t j = 0; j < g->title->data[i].size; ++j) {
             YrrPoint p = g->title->data[i].data[j];
             p.x += 3*i + g->title->offset.x;
             p.y += g->title->offset.y;

@@ -17,4 +17,5 @@ typedef struct {
 bool yrr_point_eq(YrrPoint p, YrrPoint q) ;
 
 YrrVecPoints* yrrNewVecPoints(size_t cap);
+int yrrVecPointsPushBack(YrrVecPoints* ps, YrrPoint p);
 #endif

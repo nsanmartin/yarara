@@ -21,5 +21,6 @@ typedef struct {
 
 YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts);
 int yrrResetPlayer(YrrPlayer* player, YrrPoint first);
+void yrrFreeVecPlayers(YrrVecPlayers* ps);
 #endif
 

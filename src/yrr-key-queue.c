@@ -18,6 +18,7 @@ YrrKeyQueue* yrrNewKeyQueue(size_t size) {
     }
     YrrKeyQueue* queue = malloc(sizeof(YrrKeyQueue));
     if (!queue) {
+        free(data);
         return NULL;
     }
 

@@ -44,7 +44,6 @@ int main() {
     YrrGame* game = yrrNewGame(win_sz, board_sz);
     if (game == NULL) {
         fprintf(stderr, "Could not load game, exiting.\n");
-        return -1;
     } else {
         run_game(game);
     }

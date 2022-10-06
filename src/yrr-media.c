@@ -41,6 +41,7 @@ int yrr_media_init(YrrMedia* media) {
 }
 
 void yrrFreeMedia(YrrMedia* media) {
+    SDL_DestroyRenderer(media->renderer);
     SDL_DestroyWindow(media->window); 
     yrrFreeKeyQueue(media->keyQueue);
     free(media);
@@ -54,6 +55,7 @@ YrrMedia* yrrNewMedia(YrrPoint winsz) {
 
     YrrMedia* rv = malloc(sizeof(YrrMedia));
     if (!rv) {
+        yrrFreeKeyQueue(key_queue);
         return NULL;
     }
 
@@ -66,6 +68,7 @@ YrrMedia* yrrNewMedia(YrrPoint winsz) {
     };
 
     if(yrr_media_init(rv) != 0) {
+        yrrFreeKeyQueue(key_queue);
         free(rv);
         return NULL;
     }

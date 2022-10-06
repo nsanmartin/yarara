@@ -1,8 +1,10 @@
+#include <yrr-mem.h>
+
 #include <yrr-board.h>
 #include <yrr-util.h>
 
 void yrrFreeBoard(YrrBoard* board) {
-    yrrFreeVec(board->players);
+    yrrFreeVecPlayers(board->players);
     free(board);
 }
 
@@ -11,20 +13,23 @@ YrrBoard* yrrNewBoard(YrrPoint sz) {
     YrrPoint half = (YrrPoint) { .x = sz.x/2, .y = sz.y/2 };
     YrrPoint first = get_pseudo_rand((YrrPoint) { .x=0, .y=0 }, half);
     YrrVecPoints* firsts = yrrNewVecPoints(2);
-    yrrVecPushBack(firsts, first);
+    if (firsts == NULL) {
+        return NULL;
+    }
+    yrrVecPointsPushBack(firsts, first);
     first.x = (first.x + sz.x/2) % sz.x;
     first.y = (first.y + sz.y/2) % sz.y;
-    yrrVecPushBack(firsts, first);
+    yrrVecPointsPushBack(firsts, first);
 
     YrrVecPlayers* players = yrrNewVecPlayers(firsts);
+    yrrFreeVec(firsts);
     if (!players) {
         return NULL;
     }
 
-    yrrFreeVec(firsts);
-
     YrrBoard* rv = malloc(sizeof(YrrBoard));
     if(!rv) {
+        yrrFreeVecPlayers(players);
         return NULL;
     }
     

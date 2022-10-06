@@ -1,4 +1,5 @@
-#include <stdlib.h>
+//#include <stdlib.h>
+#include <yrr-mem.h>
 #include <yrr-point.h>
 
 bool yrr_point_eq(YrrPoint p, YrrPoint q) {
@@ -12,6 +13,7 @@ YrrVecPoints* yrrNewVecPoints(size_t capacity) {
     }
     YrrVecPoints* rv = malloc(sizeof(YrrVecPoints));
     if (!rv) {
+        free(data);
         return NULL;
     }
     *rv = (YrrVecPoints) {
@@ -22,3 +24,13 @@ YrrVecPoints* yrrNewVecPoints(size_t capacity) {
 
     return rv;
 }
+
+int yrrVecPointsPushBack(YrrVecPoints* ps, YrrPoint p) { 
+    if (ps->end >= ps->capacity + ps->beg) { 
+        return -1;
+    }
+    *ps->end = p; 
+    ++ps->end; 
+    return 1;
+}
+

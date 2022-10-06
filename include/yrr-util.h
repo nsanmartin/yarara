@@ -1,19 +1,25 @@
 #ifndef __H_YRR_UTIL_H_
 #define __H_YRR_UTIL_H_
 
+#include <stdio.h>
 #include <time.h>
-#include <assert.h>
 #include <yrr-point.h>
+#include <yrr-test.h>
+#include <yrr-mem.h>
 
 enum { NS_PER_SECOND = 1000000000, MS_PER_SECOND = 1000, NS_PER_MS = 1000000 };
 
+typedef struct {
+    int error, value;
+} YrrResultInt;
+
+typedef struct {
+    int error;
+    YrrPoint value;
+} YrrResultPoint;
+
 #define LEN(ARR) (sizeof(ARR)/sizeof(ARR[0]))
 
-#define yrrVecPushBack(VECP, ELEM) { \
-        assert(VECP->end - VECP->beg < VECP->capacity); \
-        *VECP->end = ELEM; \
-        ++VECP->end; \
-    };
 
 #define yrrFreeVec(VECP) { \
     free(VECP->beg); \

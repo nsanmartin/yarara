@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <yrr-util.h>
 
 long get_time_millis() {

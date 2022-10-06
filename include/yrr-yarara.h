@@ -2,10 +2,11 @@
 #define __H_YRR_YARARA_H_
 
 #include <stddef.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <string.h>
 #include <yrr-velocity.h>
 #include <yrr-point.h>
+#include <yrr-util.h>
 
 typedef struct YrrBoard YrrBoard;
 
@@ -28,9 +29,9 @@ void yrrYararaPopFront(YrrYarara* yarara);
 int yrrYararaPushBack(YrrYarara* yar, YrrPoint p);
 
 YrrPoint yrrYararaGetBackToPoint(YrrYarara* y);
-YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b);
+YrrResultPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b);
 
-YrrPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b);
+YrrResultPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b);
 
 bool yrrBoardBlockOccupiedByAnyYarara(const YrrBoard* board, YrrPoint p);
 #endif

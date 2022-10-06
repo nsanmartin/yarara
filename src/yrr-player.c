@@ -1,3 +1,4 @@
+#include <yrr-mem.h>
 #include <yrr-player.h>
 
 #include <yrr-yarara.h>
@@ -9,6 +10,7 @@ YrrPlayer* yrrNewPlayer(YrrPoint first) {
 
     YrrPlayer* rv = malloc(sizeof(YrrPlayer));
     if (!rv) {
+        yrrFreeYarara(yarara);
         return NULL;
     }
     *rv = (YrrPlayer) { .yarara = yarara };
@@ -29,6 +31,7 @@ YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts) {
 
     YrrVecPlayers* rv = malloc(sizeof(YrrVecPlayers));
     if (!rv) {
+        free(data);
         return NULL;
     }
 
@@ -39,6 +42,12 @@ YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts) {
     for (YrrPoint* it = firsts->beg; it < firsts->end; ++it) {
         YrrYarara* yarara = yrrNewYarara(1, *it);
         if (!yarara) {
+            while (--it >= firsts->beg) {
+                --rv->end;
+                yrrFreeYarara(rv->end->yarara);
+            }
+            free(data);
+            free(rv);
             return NULL;
         }
         *rv->end++ = (YrrPlayer) {
@@ -47,6 +56,14 @@ YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts) {
         };
     }
     return rv;
+}
+
+void yrrFreeVecPlayers(YrrVecPlayers* ps) {
+    for (YrrPlayer* it = ps->beg; it < ps->end; ++it) {
+        yrrFreeYarara(it->yarara);
+    }
+    free(ps->beg);
+    free(ps);
 }
 
 int yrrResetPlayer(YrrPlayer* player, YrrPoint first) {

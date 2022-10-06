@@ -1,3 +1,5 @@
+#include <yrr-mem.h>
+
 #include <yrr-media.h>
 #include <yrr-board.h>
 #include <yrr-game.h>
@@ -23,6 +25,7 @@ YrrGame* yrrNewGame(YrrPoint win_sz, YrrPoint board_sz) {
 
     YrrBoard* board = yrrNewBoard(board_sz);
     if (!board) {
+        yrrFreeMedia(media);
         return NULL;
     }
 
@@ -30,6 +33,8 @@ YrrGame* yrrNewGame(YrrPoint win_sz, YrrPoint board_sz) {
 
     YrrGame* rv = malloc(sizeof(YrrGame));
     if (!rv) {
+        yrrFreeMedia(media);
+        yrrFreeBoard(board);
         return NULL;
     }
 

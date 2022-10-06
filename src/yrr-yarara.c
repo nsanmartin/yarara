@@ -1,3 +1,5 @@
+#include <yrr-mem.h>
+
 #include <assert.h>
 #include <yrr-yarara.h>
 #include <stdio.h>
@@ -24,6 +26,7 @@ YrrYarara* yrrNewYarara(size_t size, YrrPoint first) {
 
     YrrYarara* rv = malloc(sizeof(YrrYarara));
     if (!rv) {
+        free(data);
         return NULL;
     }
 
@@ -40,7 +43,8 @@ YrrYarara* yrrNewYarara(size_t size, YrrPoint first) {
 
     int error = yrrYararaPushBack(rv, first);
     if (error) {
-        yrrFreeYarara(rv);
+        free(data);
+        free(rv);
         return NULL;
     }
 
@@ -55,7 +59,6 @@ int yrrResetYarara(YrrYarara* yarara, YrrPoint first) {
     yarara->alive = true;
     int error = yrrYararaPushBack(yarara, first);
     return error;
-
 }
 
 void yrrFreeYarara(YrrYarara* y) {
@@ -181,22 +184,28 @@ int yarara_move_next(YrrYarara* yr, YrrPoint next, const YrrBoard* board) {
     return 0;
 }
 
-YrrPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b) {
+YrrResultPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b) {
 
     const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
 
-    yarara_move_next(yr, next, b);
+    int error = yarara_move_next(yr, next, b);
+    if (error) {
+        return (YrrResultPoint) { .error = -1 };
+    }
 
-    return next;
+    return (YrrResultPoint) { .error = 0, .value = next };
 }
 
 
-YrrPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b) {
+YrrResultPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b) {
 
     yrrYararaSetCompuNextVelocity(yr, b);
     const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
 
-    yarara_move_next(yr, next, b);
+    int error = yarara_move_next(yr, next, b);
+    if (error) {
+        return (YrrResultPoint) { .error = -1 };
+    }
 
-    return next;
+    return (YrrResultPoint) { .error = 0, .value = next };
 }
