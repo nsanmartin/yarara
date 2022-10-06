@@ -1,7 +1,7 @@
 #ifndef __H_YRR_MEDIA_SDL_H_
 #define __H_YRR_MEDIA_SDL_H_
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include <yrr-game.h>
 

@@ -1,5 +1,5 @@
 #include <yrr-media.h>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include <yrr-point.h>
 
