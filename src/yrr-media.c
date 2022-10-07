@@ -27,6 +27,12 @@ int yrr_media_init(YrrMedia* media) {
         return -1;
     }
     
+    int error = SDL_SetWindowFullscreen(media->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    if (error) {
+        SDL_DestroyWindow(media->window);
+        return error;
+    }
+
     media->renderer = SDL_CreateRenderer(
         media->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
     );

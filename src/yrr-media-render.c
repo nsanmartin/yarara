@@ -49,6 +49,50 @@ void yrr_render_level(YrrGame* g) {
     SDL_RenderFillRect(g->media->renderer, &food);
 }
 
+void yrr_render_frame(YrrGame* g) {
+    SDL_SetRenderDrawColor(g->media->renderer, 55, 48, 57, 53 );
+
+    int block_width = g->media->windowWidth / g->board->width; 
+    int block_height = g->media->windowHeight / g->board->height; 
+
+    // right |
+    SDL_Rect frame = {
+        .x = g->media->windowWidth - block_width,
+        .y = -block_height,
+        .w = block_width,
+        .h = g->media->windowHeight + block_height + block_height
+    };
+    SDL_RenderFillRect(g->media->renderer, &frame);
+    
+    // bottom ==
+    frame = (SDL_Rect) {
+        .x = 0,
+        .y = g->media->windowHeight,
+        .w = g->media->windowWidth,
+        .h = block_height
+    };
+    SDL_RenderFillRect(g->media->renderer, &frame);
+
+    // top ==
+    frame = (SDL_Rect) {
+        .x = -block_width,
+        .y = -block_height,
+        .w = g->media->windowWidth + block_width,
+        .h = block_height
+    };
+    SDL_RenderFillRect(g->media->renderer, &frame);
+
+    // left |
+    frame = (SDL_Rect) {
+        .x = -block_width,
+        .y = 0,
+        .w = block_width,
+        .h = g->media->windowHeight + block_height
+    };
+    SDL_RenderFillRect(g->media->renderer, &frame);
+}
+
+
 void yrrGamePlayStateRender(YrrGame* g) {
     SDL_SetRenderDrawColor(g->media->renderer, 0, 81, 177, 253 );
     SDL_RenderClear(g->media->renderer);
@@ -56,5 +100,6 @@ void yrrGamePlayStateRender(YrrGame* g) {
     yrr_render_players(g);
     yrr_render_level(g);
 
+    yrr_render_frame(g);
     SDL_RenderPresent(g->media->renderer);
 }
