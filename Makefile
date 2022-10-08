@@ -9,13 +9,13 @@ MALLOCTIMES := 9
 
 SRCS=$(wildcard src/*.c)
 
-yarara:
+yarara:build
 	gcc $(CFLAGS) $(SDL_CFLAGS) -o $(BUILD)/$@ main.c $(SRCS) $(SDL_LDFLAGS)
 
-tmalloc0:
+tmalloc0:build
 	gcc -DMALLOC_TIMES$(MALLOCTIMES) $(CFLAGS) $(SDL_CFLAGS) -o $(BUILD)/$@ main.c $(SRCS) $(SDL_LDFLAGS)
 
-debug:
+debug:build
 	gcc -g $(CFLAGS) $(SDL_CFLAGS) -o $(BUILD)/$@ main.c $(SRCS) $(SDL_LDFLAGS)
 
 
