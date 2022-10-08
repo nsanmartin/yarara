@@ -1,7 +1,7 @@
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
 CFLAGS = -Wextra -Werror -Wall  -pedantic -I./include 
-CC = g++
+CC = gcc
 
 BUILD = build
 
