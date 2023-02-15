@@ -41,15 +41,14 @@ YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts) {
 
     for (YrrPoint* it = firsts->beg; it < firsts->end; ++it) {
         YrrYarara* yarara = yrrNewYarara(1, *it);
+
         if (!yarara) {
-            while (--it >= firsts->beg) {
-                --rv->end;
-                yrrFreeYarara(rv->end->yarara);
-            }
+            for (;rv->beg < rv->end; ++rv->beg) { yrrFreeYarara(rv->beg->yarara); }
             free(data);
             free(rv);
             return NULL;
         }
+
         *rv->end++ = (YrrPlayer) {
             .yarara = yarara,
             .score = 0
