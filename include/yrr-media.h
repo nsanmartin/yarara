@@ -41,4 +41,7 @@ void yrrFreeKeyQueue(YrrKeyQueue* queue);
 int yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) ;
 bool yrrKeyQueueIsEmpty(const YrrKeyQueue* q) ;
 YrrKey yrrKeyQueuePopFront(YrrKeyQueue* q) ;
+SDL_Rect yrr_block_to_sdl_rect(YrrGame* game, int x, int y) ;
+SDL_Rect yrr_block_to_sdl_rect_mod_board(YrrGame* game, int x, int y);
+
 #endif
