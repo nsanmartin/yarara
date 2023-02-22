@@ -50,6 +50,7 @@ YrrGame* yrrNewGame(YrrPoint win_sz, YrrPoint board_sz) {
         .points = 0
     };
 
+    rv->board->offset = (YrrPoint){ .x = yrrGameGetBlockWidth(rv), .y = yrrGameGetBlockHeight(rv) };
     return rv;
 }
 

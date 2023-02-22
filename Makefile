@@ -30,7 +30,7 @@ tmalloc0: main.c $(OBJS)
 	$(CC) -DMALLOC_TIMES$(MALLOCTIMES) -o $(BUILD_DIR)/$@ $^ $(CFLAGS) $(SDL_LDFLAGS)
 
 
-TAGS:
+TAGS: $(HEADERS) $(SRCS)
 	universal-ctags -R -e .
 
 

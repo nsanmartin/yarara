@@ -52,42 +52,43 @@ void yrr_render_level(YrrGame* g) {
 void yrr_render_frame(YrrGame* g) {
     SDL_SetRenderDrawColor(g->media->renderer, 55, 48, 57, 53 );
 
-    int block_width = g->media->windowWidth / g->board->width; 
-    int block_height = g->media->windowHeight / g->board->height; 
+    int block_width = yrrGameGetBlockWidth(g);
+    YrrPoint offset = g->board->offset;
 
+    int block_height = yrrGameGetBlockHeight(g);
     // right |
     SDL_Rect frame = {
         .x = g->media->windowWidth - block_width,
-        .y = -block_height,
+        .y = -block_height + offset.y,
         .w = block_width,
-        .h = g->media->windowHeight + block_height + block_height
+        .h = g->media->windowHeight //+ block_height
     };
     SDL_RenderFillRect(g->media->renderer, &frame);
     
     // bottom ==
     frame = (SDL_Rect) {
-        .x = 0,
+        .x = offset.x,
         .y = g->media->windowHeight,
-        .w = g->media->windowWidth,
+        .w = g->media->windowWidth - offset.x,
         .h = block_height
     };
     SDL_RenderFillRect(g->media->renderer, &frame);
 
     // top ==
     frame = (SDL_Rect) {
-        .x = -block_width,
-        .y = -block_height,
-        .w = g->media->windowWidth + block_width,
+        .x = offset.x - block_width,
+        .y = offset.y - block_height,
+        .w = g->media->windowWidth,
         .h = block_height
     };
     SDL_RenderFillRect(g->media->renderer, &frame);
 
     // left |
     frame = (SDL_Rect) {
-        .x = -block_width,
-        .y = 0,
+        .x = offset.x - block_width,
+        .y = offset.y,
         .w = block_width,
-        .h = g->media->windowHeight + block_height
+        .h = g->media->windowHeight
     };
     SDL_RenderFillRect(g->media->renderer, &frame);
 }

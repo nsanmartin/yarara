@@ -4,8 +4,8 @@
 
 
 SDL_Rect yrr_block_to_sdl_rect(YrrGame* game, int x, int y) {
-    int block_width = game->media->windowWidth / game->board->width; 
-    int block_height = game->media->windowHeight / game->board->height; 
+    int block_width = (game->media->windowWidth - game->board->offset.x) / game->board->width; 
+    int block_height = (game->media->windowHeight - game->board->offset.y) / game->board->height; 
     
     SDL_Rect rv = {
         .x = x * block_width, 
@@ -13,6 +13,7 @@ SDL_Rect yrr_block_to_sdl_rect(YrrGame* game, int x, int y) {
         .w = block_width,
         .h = block_height
     };
+    yrrBoardApplyOffset(game->board, &rv);
     return rv;
 }
 

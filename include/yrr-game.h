@@ -5,6 +5,8 @@
 
 #include <yrr-point.h>
 #include <yrr-util.h>
+#include <yrr-board.h>
+#include <yrr-media.h>
 
 typedef struct YrrMedia YrrMedia;
 typedef struct YrrBoard YrrBoard;
@@ -34,5 +36,13 @@ void yrrFreeGame(YrrGame* game);
 
 int yrrResetGame(YrrGame* game);
 char* yrrGameGetWinner(YrrGame* g);
+
+inline static int yrrGameGetBlockWidth(const YrrGame* g) {
+    return  g->media->windowWidth / g->board->width; 
+}
+
+inline static int yrrGameGetBlockHeight(const YrrGame* g) {
+    return   g->media->windowHeight / g->board->height; 
+}
 #endif
 
