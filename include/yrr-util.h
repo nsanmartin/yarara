@@ -26,7 +26,7 @@ typedef struct {
     free(VECP); \
 }
 
-long get_time_millis();
+long get_time_millis(void);
 YrrPoint get_pseudo_rand(YrrPoint minxs, YrrPoint maxys);
 #endif
 

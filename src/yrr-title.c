@@ -37,6 +37,6 @@ YrrTitle YrrGameTitle = {
 
 };
 
-YrrTitle* yrrGetTitle() {
+YrrTitle* yrrGetTitle(void) {
    return &YrrGameTitle;
 }

@@ -37,7 +37,7 @@ void run_game (YrrGame* game) {
     } while (true);
 }
 
-int main() {
+int main(void) {
     YrrPoint win_sz = (YrrPoint) { .x = 1700, .y = 800 };
     YrrPoint board_sz = (YrrPoint) { .x = 124/2, .y = 64/2 };
     YrrGame* game = yrrNewGame(win_sz, board_sz);

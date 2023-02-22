@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <yrr-util.h>
 
-long get_time_millis() {
+long get_time_millis(void) {
     struct timespec t;
     clock_gettime(CLOCK_REALTIME, &t);
     return t.tv_sec * MS_PER_SECOND + t.tv_nsec / NS_PER_MS;

@@ -8,9 +8,9 @@ typedef struct {
 } YrrVelocity;
 
 
-YrrVelocity yrr_velocity_north(); 
-YrrVelocity yrr_velocity_south(); 
-YrrVelocity yrr_velocity_east();
-YrrVelocity yrr_velocity_west(); 
+YrrVelocity yrr_velocity_north(void); 
+YrrVelocity yrr_velocity_south(void); 
+YrrVelocity yrr_velocity_east(void);
+YrrVelocity yrr_velocity_west(void); 
 
 #endif

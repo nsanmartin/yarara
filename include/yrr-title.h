@@ -17,6 +17,6 @@ typedef struct YrrTitle {
 
 #define yrrArrayFromArray(ARR) { .data = ARR, .size = LEN(ARR) }
 
-YrrTitle* yrrGetTitle() ;
+YrrTitle* yrrGetTitle(void) ;
 
 #endif
