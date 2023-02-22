@@ -38,8 +38,8 @@ void run_game (YrrGame* game) {
 }
 
 int main(void) {
-    YrrPoint win_sz = (YrrPoint) { .x = 1400, .y = 700 };
-    YrrPoint board_sz = (YrrPoint) { .x = 80, .y = 40 };
+    YrrPoint win_sz = (YrrPoint) { .x = 1200, .y = 700 };
+    YrrPoint board_sz = (YrrPoint) { .x = 69, .y = 40 };
     YrrGame* game = yrrNewGame(win_sz, board_sz);
     if (game == NULL) {
         fprintf(stderr, "Could not load game, exiting.\n");
