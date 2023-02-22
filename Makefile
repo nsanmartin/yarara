@@ -14,8 +14,8 @@ MALLOCTIMES := 9
 
 SRCS=$(wildcard src/*.c)
 
-yarara: main.c $(OBJS)
-	$(CC) -o $(BUILD_DIR)/$@ $^ $(CFLAGS) $(SDL_LDFLAGS)
+$(BUILD_DIR)/yarara: main.c $(OBJS)
+	$(CC) -o $@ $^ $(CFLAGS) $(SDL_LDFLAGS)
 
 analyze-gcc: main.c $(OBJS)
 	$(CC) -o $(BUILD_DIR)/$@ $^ -fanalyzer $(CFLAGS) $(SDL_LDFLAGS)
