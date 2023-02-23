@@ -7,6 +7,7 @@
 #include <yrr-velocity.h>
 #include <yrr-point.h>
 #include <yrr-util.h>
+#include <yrr-board.h>
 
 typedef struct YrrBoard YrrBoard;
 
@@ -23,16 +24,16 @@ typedef struct YrrYarara {
 
 YrrYarara* yrrNewYarara(size_t n, YrrPoint first);
 void yrrFreeYarara(YrrYarara* y);
-int yrrResetYarara(YrrYarara* yarara, YrrPoint first);
+int yrrResetYarara(YrrYarara yarara[static 1], YrrPoint first);
 
-void yrrYararaPopFront(YrrYarara* yarara);
-int yrrYararaPushBack(YrrYarara* yar, YrrPoint p);
+void yrrYararaPopFront(YrrYarara yarara[static 1]);
+int yrrYararaPushBack(YrrYarara yar[static 1], YrrPoint p);
 
-YrrPoint yrrYararaGetBackToPoint(YrrYarara* y);
-YrrResultPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b);
+YrrPoint yrrYararaGetBackToPoint(YrrYarara y[static 1]);
+YrrResultPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara yr[static 1], const YrrBoard b[static 1]);
 
-YrrResultPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b);
+YrrResultPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara yr[static 1], const YrrBoard b[static 1]);
 
-bool yrrBoardBlockOccupiedByAnyYarara(const YrrBoard* board, YrrPoint p);
+bool yrrBoardBlockOccupiedByAnyYarara(const YrrBoard board[static 1], YrrPoint p);
 #endif
 

@@ -7,7 +7,7 @@
 
 #define SLICE 140
 
-void loop(YrrGame* game) {
+void loop(YrrGame game[static 1]) {
     long previous = get_time_millis();
     long lag = 0;
     const long slice = SLICE;
@@ -27,7 +27,7 @@ void loop(YrrGame* game) {
     }
 }
 
-void run_game (YrrGame* game) {
+void run_game (YrrGame game[static 1]) {
     do {
         loop(game);
         yrrGamePrintResults(game);

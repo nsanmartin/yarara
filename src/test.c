@@ -3,7 +3,9 @@
 
 #include <yrr-test.h>
 
-#define MALLOC_TIMES 10
+#ifndef MALLOC_TIMES
+    #define  MALLOC_TIMES 16 // default value
+#endif
 
 int yrr_malloc_times = MALLOC_TIMES;
 int yrr_malloc_calls = 0;

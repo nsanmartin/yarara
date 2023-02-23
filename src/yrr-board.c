@@ -4,8 +4,10 @@
 #include <yrr-util.h>
 
 void yrrFreeBoard(YrrBoard* board) {
-    yrrFreeVecPlayers(board->players);
-    free(board);
+    if (board) {
+        yrrFreeVecPlayers(board->players);
+        free(board);
+    }
 }
 
 YrrBoard* yrrNewBoard(YrrPoint sz) {
@@ -43,7 +45,7 @@ YrrBoard* yrrNewBoard(YrrPoint sz) {
     return rv;
 }
 
-int yrrResetBoard(YrrBoard* board) {
+int yrrResetBoard(YrrBoard board[static 1]) {
     YrrPoint half = (YrrPoint) { .x = board->width/2, .y = board->height/2 };
     YrrPoint first_compu = get_pseudo_rand((YrrPoint) { .x=0, .y=0 }, half);
     YrrPoint first_human = (YrrPoint) {

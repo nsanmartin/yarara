@@ -6,6 +6,7 @@
 #include <SDL.h>
 
 #include <yrr-point.h>
+#include <yrr-media.h>
 
 typedef struct YrrGame YrrGame;
 
@@ -31,17 +32,12 @@ YrrMedia* yrrNewMedia(YrrPoint winsz);
 void yrrFreeMedia(YrrMedia* media);
 
 
-void yrrGameTitleStateRender(YrrGame* g) ;
-void yrrGamePlayStateRender(YrrGame* g) ;
-
 // utils
 
 YrrKeyQueue* yrrNewKeyQueue(size_t size) ;
-void yrrFreeKeyQueue(YrrKeyQueue* queue);
-int yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) ;
-bool yrrKeyQueueIsEmpty(const YrrKeyQueue* q) ;
-YrrKey yrrKeyQueuePopFront(YrrKeyQueue* q) ;
-SDL_Rect yrr_block_to_sdl_rect(YrrGame* game, int x, int y) ;
-SDL_Rect yrr_block_to_sdl_rect_mod_board(YrrGame* game, int x, int y);
+void yrrFreeKeyQueue(YrrKeyQueue* q);
+int yrrKeyQueuePushBack(YrrKeyQueue q[static 1], YrrKey k) ;
+bool yrrKeyQueueIsEmpty(const YrrKeyQueue q[static 1]) ;
+YrrKey yrrKeyQueuePopFront(YrrKeyQueue q[static 1]) ;
 
 #endif

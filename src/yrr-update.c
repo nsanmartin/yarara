@@ -1,14 +1,15 @@
 #include <yrr-game.h>
 #include <yrr-media.h>
 #include <yrr-title.h>
+#include <yrr-yarara.h>
 
 #include <stdio.h>
-void yrrGameTitleStateUpdate(YrrGame* g) {
+void yrrGameTitleStateUpdate(YrrGame g[static 1]) {
     ++g->title->offset.x;
     ++g->title->offset.y;
 }
 
-void yrrGamePlayStateReadInput(YrrGame* g) {
+void yrrGamePlayStateReadInput(YrrGame g[static 1]) {
     YrrKeyQueue* q = g->media->keyQueue;
     //, the second is the human, use another aproach
     YrrYarara* yr = g->board->players->beg[1].yarara;
@@ -38,7 +39,7 @@ void yrrGamePlayStateReadInput(YrrGame* g) {
     }
 }
 
-void yrrGamePlayStateUpdate(YrrGame* game) {
+void yrrGamePlayStateUpdate(YrrGame game[static 1]) {
 
     yrrGamePlayStateReadInput(game) ;
     YrrPlayer* compu = game->board->players->beg;

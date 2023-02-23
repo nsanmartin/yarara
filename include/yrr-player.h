@@ -19,8 +19,8 @@ typedef struct {
     YrrPlayer* end;
 } YrrVecPlayers;
 
-YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts);
-int yrrResetPlayer(YrrPlayer* player, YrrPoint first);
+YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints firsts[static 1]);
+int yrrResetPlayer(YrrPlayer player[static 1], YrrPoint first);
 void yrrFreeVecPlayers(YrrVecPlayers* ps);
 #endif
 

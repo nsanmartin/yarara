@@ -3,17 +3,23 @@
 #include <yrr-media.h>
 #include <yrr-board.h>
 #include <yrr-game.h>
+#include <yrr-yarara.h>
 #include <yrr-title.h>
 
-void yrrGamePlayStateProcessInput(YrrGame* game) ;
-void yrrGameTitleStateUpdate(YrrGame* g) ;
-void yrrGameTitleStateProcessInput(YrrGame* game) ;
+void yrrGamePlayStateProcessInput(YrrGame game[static 1]) ;
+void yrrGameTitleStateUpdate(YrrGame g[static 1]) ;
+void yrrGameTitleStateProcessInput(YrrGame game[static 1]) ;
 void yrrGamePlayStateUpdate(YrrGame* g) ;
 
+void yrrGameTitleStateRender(YrrGame g[static 1]) ;
+void yrrGamePlayStateRender(YrrGame g[static 1]) ;
+
 void yrrFreeGame(YrrGame* game) {
-    yrrFreeMedia(game->media);
-    yrrFreeBoard(game->board);
-    free(game);
+    if (game) {
+        yrrFreeMedia(game->media);
+        yrrFreeBoard(game->board);
+        free(game);
+    }
 }
 
 YrrGame* yrrNewGame(YrrPoint win_sz, YrrPoint board_sz) {
@@ -54,7 +60,7 @@ YrrGame* yrrNewGame(YrrPoint win_sz, YrrPoint board_sz) {
     return rv;
 }
 
-int yrrResetGame(YrrGame* game) {
+int yrrResetGame(YrrGame game[static 1]) {
     if (game == NULL) { return -1; }
     int error = yrrResetBoard(game->board);
     if (error) { return error; }
@@ -72,13 +78,13 @@ int yrrResetGame(YrrGame* game) {
     return 0;
 }
 
-void yrrChangeStateMethods(YrrGame* game, YrrGameState new_state) {
+void yrrChangeStateMethods(YrrGame game[static 1], YrrGameState new_state) {
 
     switch (new_state) {
         case YrrStatePlay:
-            game->process_input = &yrrGamePlayStateProcessInput;
-            game->update = &yrrGamePlayStateUpdate;
-            game->render = &yrrGamePlayStateRender;
+            game->process_input = yrrGamePlayStateProcessInput;
+            game->update = yrrGamePlayStateUpdate;
+            game->render = yrrGamePlayStateRender;
             break;
         default:
             return;
@@ -87,7 +93,7 @@ void yrrChangeStateMethods(YrrGame* game, YrrGameState new_state) {
     game->state = new_state;
 }
 
-void yrrGamePrintResults(YrrGame* g) {
+void yrrGamePrintResults(YrrGame g[static 1]) {
     if (!g || !g->board || !g->board->players || !g->board->players->beg) {
         fprintf(stderr, "error: invalid game.");
     } else {
@@ -99,3 +105,23 @@ void yrrGamePrintResults(YrrGame* g) {
     }
 }
 
+SDL_Rect yrr_block_to_sdl_rect(YrrGame game[static 1], int x, int y) {
+    int block_width = (game->media->windowWidth - game->board->offset.x) / game->board->width; 
+    int block_height = (game->media->windowHeight - game->board->offset.y) / game->board->height; 
+    
+    SDL_Rect rv = {
+        .x = x * block_width, 
+        .y = y * block_height,
+        .w = block_width,
+        .h = block_height
+    };
+    yrrBoardApplyOffset(game->board, &rv);
+    return rv;
+}
+
+
+SDL_Rect yrr_block_to_sdl_rect_mod_board(YrrGame g[static 1], int x, int y) {
+    x %= g->board->width;
+    y %= g->board->height;
+    return yrr_block_to_sdl_rect(g, x, y);
+}

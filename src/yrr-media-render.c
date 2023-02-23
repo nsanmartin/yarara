@@ -2,9 +2,11 @@
 #include <yrr-game.h>
 #include <yrr-media.h>
 #include <yrr-title.h>
+#include <yrr-yarara.h>
 
 
-void yrr_render_title(YrrGame* g) {
+
+void yrr_render_title(YrrGame g[static 1]) {
     for (size_t i = 0; i < g->title->size; ++i) {
         for (size_t j = 0; j < g->title->data[i].size; ++j) {
             YrrPoint p = g->title->data[i].data[j];
@@ -17,7 +19,7 @@ void yrr_render_title(YrrGame* g) {
     }
 }
 
-void yrrGameTitleStateRender(YrrGame* g) {
+void yrrGameTitleStateRender(YrrGame g[static 1]) {
     SDL_SetRenderDrawColor(g->media->renderer, 0, 81, 177, 253 );
     SDL_RenderClear(g->media->renderer);
     SDL_SetRenderDrawColor(g->media->renderer, 155, 181, 57, 253 );
@@ -29,7 +31,7 @@ void yrrGameTitleStateRender(YrrGame* g) {
 }
 
 
-void yrr_render_players(YrrGame* g) {
+void yrr_render_players(YrrGame g[static 1]) {
     YrrVecPlayers* players = g->board->players;
     SDL_SetRenderDrawColor(g->media->renderer, 255, 148, 57, 253 );
     for(YrrPlayer* it = players->beg; it < players->end; ++it) {
@@ -41,7 +43,7 @@ void yrr_render_players(YrrGame* g) {
     }
 }
 
-void yrr_render_level(YrrGame* g) {
+void yrr_render_level(YrrGame g[static 1]) {
     YrrPoint p = g->board->level.food;
     SDL_Rect food = yrr_block_to_sdl_rect_mod_board(g, p.x, p.y);
 
@@ -49,7 +51,7 @@ void yrr_render_level(YrrGame* g) {
     SDL_RenderFillRect(g->media->renderer, &food);
 }
 
-void yrr_render_frame(YrrGame* g) {
+void yrr_render_frame(YrrGame g[static 1]) {
     SDL_SetRenderDrawColor(g->media->renderer, 55, 48, 57, 53 );
 
     int block_width = yrrGameGetBlockWidth(g);
@@ -94,7 +96,7 @@ void yrr_render_frame(YrrGame* g) {
 }
 
 
-void yrrGamePlayStateRender(YrrGame* g) {
+void yrrGamePlayStateRender(YrrGame g[static 1]) {
     SDL_SetRenderDrawColor(g->media->renderer, 0, 81, 177, 253 );
     SDL_RenderClear(g->media->renderer);
 

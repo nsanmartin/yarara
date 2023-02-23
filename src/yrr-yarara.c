@@ -7,7 +7,7 @@
 #include <yrr-game.h>
 
 
-YrrPoint yrrYararaNextPoint(YrrYarara* yr, int maxx, int maxy) {
+YrrPoint yrrYararaNextPoint(YrrYarara yr[static 1], int maxx, int maxy) {
     assert(yr->back >= yr->front);
     YrrPoint p = yr->back[-1];
     return (YrrPoint) {
@@ -51,7 +51,7 @@ YrrYarara* yrrNewYarara(size_t size, YrrPoint first) {
     return rv;
 }
 
-int yrrResetYarara(YrrYarara* yarara, YrrPoint first) {
+int yrrResetYarara(YrrYarara yarara[static 1], YrrPoint first) {
     yarara->back = yarara->front = yarara->data;
     yarara->vel    = yrr_velocity_west();
     yarara->next_vel    = yrr_velocity_west();
@@ -62,22 +62,24 @@ int yrrResetYarara(YrrYarara* yarara, YrrPoint first) {
 }
 
 void yrrFreeYarara(YrrYarara* y) {
-    free(y->data);
-    free(y);
+    if (y) {
+        free(y->data);
+        free(y);
+    }
 }
 
 
-void yrrYararaPopFront(YrrYarara* yarara) {
+void yrrYararaPopFront(YrrYarara yarara[static 1]) {
     assert(yarara->front < yarara->back);
     ++yarara->front;
 }
 
 
-bool no_more_place_at_end(YrrYarara* yr) {
+bool no_more_place_at_end(YrrYarara yr[static 1]) {
     return yr->back >= yr->data + yr->size;
 }
 
-bool has_place_at_beg(YrrYarara* yr) {
+bool has_place_at_beg(YrrYarara yr[static 1]) {
     return yr->front > yr->data;
 }
 
@@ -110,17 +112,17 @@ int yarara_push_back(YrrYarara* yr, int x, int y) {
     return 0;
 }
 
-int yrrYararaPushBack(YrrYarara* yr, YrrPoint p) {
+int yrrYararaPushBack(YrrYarara yr[static 1], YrrPoint p) {
     return yarara_push_back(yr, p.x, p.y);
 }
 
 
-YrrPoint yrrYararaGetBackToPoint(YrrYarara* yr) {
+YrrPoint yrrYararaGetBackToPoint(YrrYarara yr[static 1]) {
     assert(yr->back > yr->front);
     return yr->back[-1];
 }
 
-bool yrrYararaGetsHitByBlock(YrrYarara* yr, YrrPoint p) {
+bool yrrYararaGetsHitByBlock(YrrYarara yr[static 1], YrrPoint p) {
     for (YrrPoint* it = yr->front; it < yr->back; ++it) {
         if (yrr_point_eq(*it, p)) {
             return true;
@@ -133,7 +135,7 @@ YrrVelocity rotate_90deg(YrrVelocity v) {
     return (YrrVelocity) { .x = v.y, .y = -v.x };
 }
 
-bool yrrBoardBlockOccupiedByAnyYarara(const YrrBoard* board, YrrPoint p) {
+bool yrrBoardBlockOccupiedByAnyYarara(const YrrBoard board[static 1], YrrPoint p) {
     YrrVecPlayers* ps = board->players;
     for (YrrPlayer* it = ps->beg; it < ps->end; ++it) {
         if (yrrYararaGetsHitByBlock(it->yarara, p)) {
@@ -144,7 +146,7 @@ bool yrrBoardBlockOccupiedByAnyYarara(const YrrBoard* board, YrrPoint p) {
 }
 
 
-void yrrYararaSetCompuNextVelocity(YrrYarara* yr, const YrrBoard* b) {
+void yrrYararaSetCompuNextVelocity(YrrYarara yr[static 1], const YrrBoard b[static 1]) {
     const YrrPoint food = b->level.food;
     assert(yr->back > yr->front);
     YrrPoint p = yr->back[-1];
@@ -159,7 +161,7 @@ void yrrYararaSetCompuNextVelocity(YrrYarara* yr, const YrrBoard* b) {
 }
 
 
-int yarara_move_next(YrrYarara* yr, YrrPoint next, const YrrBoard* board) {
+int yarara_move_next(YrrYarara yr[static 1], YrrPoint next, const YrrBoard board[static 1]) {
     if (yrrBoardBlockOccupiedByAnyYarara(board, next)) {
         yr->alive = false;
     }
@@ -184,7 +186,7 @@ int yarara_move_next(YrrYarara* yr, YrrPoint next, const YrrBoard* board) {
     return 0;
 }
 
-YrrResultPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard* b) {
+YrrResultPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara yr[static 1], const YrrBoard b[static 1]) {
 
     const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
 
@@ -197,7 +199,7 @@ YrrResultPoint yrrYararaPlayStateUpdateHumanPlayer(YrrYarara* yr, const YrrBoard
 }
 
 
-YrrResultPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBoard* b) {
+YrrResultPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara yr[static 1], const YrrBoard b[static 1]) {
 
     yrrYararaSetCompuNextVelocity(yr, b);
     const YrrPoint next = yrrYararaNextPoint(yr, b->width, b->height);
@@ -209,3 +211,4 @@ YrrResultPoint yrrYararaPlayStateUpdateAutomatePlayer(YrrYarara* yr, const YrrBo
 
     return (YrrResultPoint) { .error = 0, .value = next };
 }
+

@@ -2,7 +2,6 @@
 #define __H_YRR_BOARD_H_
 
 #include <yrr-point.h>
-#include <yrr-yarara.h>
 #include <yrr-player.h>
 #include <SDL.h>
 
@@ -22,9 +21,9 @@ typedef struct YrrBoard {
 
 YrrBoard* yrrNewBoard(YrrPoint sz);
 void yrrFreeBoard(YrrBoard* board);
-int yrrResetBoard(YrrBoard* board);
+int yrrResetBoard(YrrBoard board[static 1]);
 
-static inline void yrrBoardApplyOffset(YrrBoard* b, SDL_Rect* r) {
+static inline void yrrBoardApplyOffset(YrrBoard b[static 1], SDL_Rect r[static 1]) {
     r->x += b->offset.x;
     r->y += b->offset.y;
 }

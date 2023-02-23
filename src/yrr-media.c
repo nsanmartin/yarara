@@ -4,7 +4,7 @@
 
 #include <SDL.h>
 
-int yrr_media_init(YrrMedia* media) {
+int yrr_media_init(YrrMedia media[static 1]) {
     
     if (SDL_Init (SDL_INIT_VIDEO) < 0) {
         fprintf(stderr, "Couldn't initialize SDL\n");
@@ -47,10 +47,12 @@ int yrr_media_init(YrrMedia* media) {
 }
 
 void yrrFreeMedia(YrrMedia* media) {
-    SDL_DestroyRenderer(media->renderer);
-    SDL_DestroyWindow(media->window); 
-    yrrFreeKeyQueue(media->keyQueue);
-    free(media);
+    if (media) {
+        SDL_DestroyRenderer(media->renderer);
+        SDL_DestroyWindow(media->window); 
+        yrrFreeKeyQueue(media->keyQueue);
+        free(media);
+    }
 }
 
 YrrMedia* yrrNewMedia(YrrPoint winsz) {
@@ -81,23 +83,3 @@ YrrMedia* yrrNewMedia(YrrPoint winsz) {
     return rv;
 }
 
-SDL_Rect yrr_block_to_sdl_rect(YrrGame* game, int x, int y) {
-    int block_width = (game->media->windowWidth - game->board->offset.x) / game->board->width; 
-    int block_height = (game->media->windowHeight - game->board->offset.y) / game->board->height; 
-    
-    SDL_Rect rv = {
-        .x = x * block_width, 
-        .y = y * block_height,
-        .w = block_width,
-        .h = block_height
-    };
-    yrrBoardApplyOffset(game->board, &rv);
-    return rv;
-}
-
-
-SDL_Rect yrr_block_to_sdl_rect_mod_board(YrrGame* g, int x, int y) {
-    x %= g->board->width;
-    y %= g->board->height;
-    return yrr_block_to_sdl_rect(g, x, y);
-}

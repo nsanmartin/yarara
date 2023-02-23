@@ -32,9 +32,9 @@ void yrrKeyQueueFree(YrrKeyQueue* q) {
 
 }
 
-bool yrrKeyQueueIsEmpty(const YrrKeyQueue* q) { return q->front >= q->back; }
+bool yrrKeyQueueIsEmpty(const YrrKeyQueue q[static 1]) { return q->front >= q->back; }
 
-int yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) {
+int yrrKeyQueuePushBack(YrrKeyQueue q[static 1], YrrKey k) {
     if (q->back >= q->data + q->sz) {
         if (q->front > q->data) {
             size_t n = q->back - q->front;
@@ -57,7 +57,7 @@ int yrrKeyQueuePushBack(YrrKeyQueue* q, YrrKey k) {
     return 0;
 }
 
-YrrKey yrrKeyQueuePopFront(YrrKeyQueue* q) {
+YrrKey yrrKeyQueuePopFront(YrrKeyQueue q[static 1]) {
     assert(q->front < q->back);
     return *q->front++;
 }

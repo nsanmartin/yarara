@@ -18,11 +18,13 @@ YrrPlayer* yrrNewPlayer(YrrPoint first) {
 }
 
 void yrrFreePlayer(YrrPlayer* player) {
-    yrrFreeYarara(player->yarara);
-    free(player);
+    if (player) {
+        yrrFreeYarara(player->yarara);
+        free(player);
+    }
 }
 
-YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts) {
+YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints firsts[static 1]) {
     size_t n = firsts->end - firsts->beg;
     YrrPlayer* data = malloc(n * sizeof(YrrPlayer));
     if (!data) {
@@ -58,14 +60,16 @@ YrrVecPlayers* yrrNewVecPlayers(YrrVecPoints* firsts) {
 }
 
 void yrrFreeVecPlayers(YrrVecPlayers* ps) {
-    for (YrrPlayer* it = ps->beg; it < ps->end; ++it) {
-        yrrFreeYarara(it->yarara);
+    if (ps) {
+        for (YrrPlayer* it = ps->beg; it < ps->end; ++it) {
+            yrrFreeYarara(it->yarara);
+        }
+        free(ps->beg);
+        free(ps);
     }
-    free(ps->beg);
-    free(ps);
 }
 
-int yrrResetPlayer(YrrPlayer* player, YrrPoint first) {
+int yrrResetPlayer(YrrPlayer player[static 1], YrrPoint first) {
     player->score = 0;
     int error = yrrResetYarara(player->yarara, first);
     return error;

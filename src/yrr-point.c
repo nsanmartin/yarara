@@ -25,7 +25,7 @@ YrrVecPoints* yrrNewVecPoints(size_t capacity) {
     return rv;
 }
 
-int yrrVecPointsPushBack(YrrVecPoints* ps, YrrPoint p) { 
+int yrrVecPointsPushBack(YrrVecPoints ps[static 1], YrrPoint p) { 
     if (ps->end >= ps->capacity + ps->beg) { 
         return -1;
     }

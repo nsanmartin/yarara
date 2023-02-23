@@ -3,6 +3,6 @@
 
 #include <yrr-game.h>
 
-char* yrrGamePrintResults(YrrGame* g) ;
+char* yrrGamePrintResults(YrrGame g[static 1]) ;
 #endif
 

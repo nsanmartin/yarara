@@ -10,24 +10,19 @@ HEADERS=$(wildcard include/*.h)
 SRCS=$(wildcard src/*.c)
 OBJS=$(SRCS:src/%.c=obj/%.o)
 
-MALLOCTIMES := 9
-
 SRCS=$(wildcard src/*.c)
 
 $(BUILD_DIR)/yarara: main.c $(OBJS)
-	$(CC) -o $@ $^ $(CFLAGS) $(SDL_LDFLAGS)
+	$(CC) $(MKFLG) -o $@ $^ $(CFLAGS) $(SDL_LDFLAGS)
 
 analyze-gcc: main.c $(OBJS)
-	$(CC) -o $(BUILD_DIR)/$@ $^ -fanalyzer $(CFLAGS) $(SDL_LDFLAGS)
+	$(CC) $(MKFLG) -o $(BUILD_DIR)/$@ $^ -fanalyzer $(CFLAGS) $(SDL_LDFLAGS)
 
 analyze-clang: main.c $(OBJS)
-	$(CC) -o $(BUILD_DIR)/$@ $^ --analyze $(CFLAGS) $(SDL_LDFLAGS)
+	$(CC) $(MKFLG) -o $(BUILD_DIR)/$@ $^ --analyze $(CFLAGS) $(SDL_LDFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) 
-	$(CC) -c -o $@ $< $(CFLAGS) 
-
-tmalloc0: main.c $(OBJS)
-	$(CC) -DMALLOC_TIMES$(MALLOCTIMES) -o $(BUILD_DIR)/$@ $^ $(CFLAGS) $(SDL_LDFLAGS)
+	$(CC) $(MKFLG) -c -o $@ $< $(CFLAGS) 
 
 
 TAGS: $(HEADERS) $(SRCS)
