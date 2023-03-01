@@ -1,6 +1,6 @@
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
-CFLAGS = -Wextra -Werror -Wall  -pedantic -I./include $(SDL_CFLAGS)
+CFLAGS = -std=c2x -Wextra -Werror -Wall  -pedantic -I./include $(SDL_CFLAGS)
 
 BUILD_DIR=./build
 OBJ_DIR=./obj
